@@ -1,4 +1,4 @@
-package org.skunks.demo;
+package com.example.assignment1;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

@@ -5,6 +5,6 @@ module org.skunks.demo {
     requires java.desktop;
     requires java.sql;
 
-    exports org.skunks.demo;  // Ensure this exports the App class package
-    opens org.skunks.demo to javafx.fxml;  // Open the package for FXML to access the controller
+    exports com.example.assignment1;  // Ensure this exports the App class package
+    opens com.example.assignment1 to javafx.fxml;  // Open the package for FXML to access the controller
 }

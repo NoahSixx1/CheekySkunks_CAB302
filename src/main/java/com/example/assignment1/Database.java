@@ -1,4 +1,4 @@
-package org.skunks.demo;
+package com.example.assignment1;
 
 import java.sql.*;
 
@@ -10,7 +10,7 @@ public class Database {
              Statement stmt = conn.createStatement()) {
             String sql = """
                 CREATE TABLE IF NOT EXISTS users (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    userid INTEGER PRIMARY KEY AUTOINCREMENT,
                     username TEXT UNIQUE NOT NULL,
                     password TEXT NOT NULL,
                     name TEXT,
@@ -18,6 +18,13 @@ public class Database {
                 );
             """;
             stmt.execute(sql);
+            String projects = """
+                CREATE TABLE IF NOT EXISTS users (
+                    userid INTEGER,
+                    projectName TEXT,
+                    projectContent TEXT
+                );
+            """;
             System.out.println("Database and table successfully created.");
         } catch (SQLException e) {
             e.printStackTrace();

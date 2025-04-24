@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 
 <VBox alignment="TOP_LEFT" spacing="10.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="org.skunks.demo.LoginPage">
+      fx:controller="com.example.assignment1.LoginPage">
     <padding>
         <Insets top="20" right="20" bottom="20" left="20"/>
     </padding>
