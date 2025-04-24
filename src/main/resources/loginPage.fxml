@@ -1,37 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.layout.HBox?>
-
-<VBox alignment="TOP_LEFT" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
+<VBox alignment="TOP_LEFT" spacing="10.0" xmlns:fx="http://javafx.com/fxml"
       fx:controller="org.skunks.demo.LoginPage">
     <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+        <Insets top="20" right="20" bottom="20" left="20"/>
     </padding>
 
-    <Label text="Welcome to Skunk's Rap.
-  You must agree to the following terms and conditions before you can use the application."
-           wrapText="true"/>
-    <TextArea fx:id="termsAndConditions"
-              wrapText="true"
-              editable="false"
-    />
-    <CheckBox fx:id="agreeCheckBox"
-              text="I agree to the terms and conditions."
-              onAction="#onAgreeCheckBoxClick"
-    />
+    <Label text="Welcome to Skunk's Rap. Please read and agree to the terms and conditions." wrapText="true"/>
+    <TextArea fx:id="termsAndConditions" wrapText="true" editable="false"/>
+
+    <CheckBox fx:id="agreeCheckBox" text="I agree to the terms and conditions." onAction="#onAgreeCheckBoxClick"/>
+
+    <Label fx:id="modeLabel" text="Login"/>
+
+    <TextField fx:id="usernameField" promptText="Username"/>
+    <PasswordField fx:id="passwordField" promptText="Password"/>
+    <TextField fx:id="nameField" promptText="Full Name" visible="false"/>
+    <TextField fx:id="emailField" promptText="Email" visible="false"/>
+
     <HBox alignment="BOTTOM_RIGHT" spacing="10.0">
         <Button text="Cancel" onAction="#onCancelButtonClick"/>
-        <Button fx:id="nextButton"
-                text="Next"
-                onAction="#onNextButtonClick"
-                disable="true"
-        />
+        <Button fx:id="toggleButton" text="Switch to Register" onAction="#onToggleButtonClick"/>
+        <Button fx:id="nextButton" text="Login" onAction="#onNextButtonClick" disable="true"/>
     </HBox>
 </VBox>
