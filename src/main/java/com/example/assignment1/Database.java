@@ -1,7 +1,8 @@
 package com.example.assignment1;
 
 import java.sql.*;
-
+import java.util.ArrayList;
+import java.util.List;
 public class Database {
     private static final String DB_URL = "jdbc:sqlite:skunks.db";
 
@@ -80,4 +81,46 @@ public class Database {
 
         return null; // return null if no user found
     }
+    // LEADERBOARD FUNCTIONS:
+
+    public static boolean updateScore(String username, int newScore) {
+        String sql = """
+            UPDATE leaderboard
+            SET score = ?
+            WHERE userid = (SELECT userid FROM users WHERE username = ?)
+            """;
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, newScore);
+            pstmt.setString(2, username);
+            int affected = pstmt.executeUpdate();
+            return affected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static List<String> getLeaderboard() {
+        List<String> leaderboard = new ArrayList<>();
+        String sql = """
+            SELECT u.username, l.score
+            FROM leaderboard l
+            JOIN users u ON l.userid = u.userid
+            ORDER BY l.score DESC
+            """;
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            while (rs.next()) {
+                String entry = rs.getString("username") + " - " + rs.getInt("score") + " points";
+                leaderboard.add(entry);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return leaderboard;
+    }
 }
+
