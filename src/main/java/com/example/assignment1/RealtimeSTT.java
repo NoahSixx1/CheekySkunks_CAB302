@@ -81,26 +81,45 @@ public class RealtimeSTT {
                 byte[] buffer = new byte[4096];
                 int bytesRead;
 
+                String currentLine = ""; // New: track current partial text
+
                 while (isRecording && (bytesRead = microphone.read(buffer, 0, buffer.length)) != -1) {
                     if (recognizer.acceptWaveForm(buffer, bytesRead)) {
-                        String result = recognizer.getResult();
-                        // Append result to transcript and TextArea
-                        transcript += result + "\n";
-                        Platform.runLater(() -> transcriptArea.appendText(result + "\n"));
+                        // FINAL result received
+                        String resultJson = recognizer.getResult();
+                        String finalText = extractTextFromJson(resultJson);
+
+                        if (!finalText.isBlank()) {
+                            transcript += finalText + "\n"; // Add final recognized text + newline
+                            String finalTranscript = transcript + currentLine; // Display all together
+
+                            Platform.runLater(() -> transcriptArea.setText(finalTranscript));
+                        }
+
+                        currentLine = ""; // Reset partial line after final
                     } else {
-                        String partialResult = recognizer.getPartialResult();
-                        // Append partial result to transcript and TextArea
-                        transcript += partialResult + "\n";
-                        Platform.runLater(() -> transcriptArea.appendText(partialResult + "\n"));
+                        // Partial result received
+                        String partialJson = recognizer.getPartialResult();
+                        String partialText = extractPartialTextFromJson(partialJson);
+
+                        if (!partialText.isBlank()) {
+                            currentLine = partialText;
+                            String finalTranscript = transcript + currentLine; // Combine final + partials
+                            Platform.runLater(() -> transcriptArea.setText(finalTranscript));
+                        }
                     }
                 }
 
-                // Append final result to transcript and TextArea
-                String finalResult = recognizer.getFinalResult();
-                transcript += finalResult + "\n";  // Add final result
-                Platform.runLater(() -> transcriptArea.appendText(finalResult + "\n"));
+                // After recording stopped, add final result
+                String finalResultJson = recognizer.getFinalResult();
+                String finalText = extractTextFromJson(finalResultJson);
 
-                // Save all results to file once recording stops
+                if (!finalText.isBlank()) {
+                    transcript += finalText + "\n";
+                }
+
+                Platform.runLater(() -> transcriptArea.setText(transcript.trim()));
+
                 saveTranscriptToFile("transcript.txt");
             });
 
@@ -111,6 +130,22 @@ public class RealtimeSTT {
             e.printStackTrace();
         }
     }
+
+    private String extractTextFromJson(String json) {
+
+        String strippedText = json.replace("{\n", "").replace("\n}", "");
+        String output = strippedText.replaceAll("\"text\"\\s*:\\s*\"([^\"]+)\"", "$1");
+        return output;
+    }
+
+    private String extractPartialTextFromJson(String json) {
+        String strippedText = json.replace("{\n", "").replace("\n}", "");
+        String output = strippedText.replaceAll("\"partial\"\\s*:\\s*\"([^\"]+)\"", "$1");
+        return output;
+    }
+
+
+
 
     private void saveTranscriptToFile(String filename) {
         try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filename), StandardCharsets.UTF_8))) {
