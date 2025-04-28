@@ -2,15 +2,19 @@ package com.example.assignment1;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import org.vosk.Recognizer;
 import org.vosk.Model;
 import javax.sound.sampled.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.sql.*;
 
 public class RealtimeSTT {
 
@@ -26,6 +30,9 @@ public class RealtimeSTT {
     @FXML
     private Button downloadButton;
 
+    @FXML
+    private Button FeedbackPageButton;
+
     private boolean isRecording = false;
     private Recognizer recognizer;
     private TargetDataLine microphone;
@@ -34,6 +41,8 @@ public class RealtimeSTT {
     private static final int SAMPLE_RATE = 16000;
     private Model model;
     private String transcript = "";
+    String userId = Session.getCurrentUserId();
+
 
     public RealtimeSTT() throws IOException {
         model = new Model("src/main/resources/model");
@@ -125,7 +134,40 @@ public class RealtimeSTT {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        // Save to database after stopping recording
+        saveTranscriptToDatabase();
     }
+    private void saveTranscriptToDatabase() {
+        String url = "jdbc:sqlite:skunks.db";
+        String insertSQL = "INSERT INTO projects (userid, transcript) VALUES (?, ?)";
+
+        try (Connection conn = DriverManager.getConnection(url);
+             PreparedStatement pstmt = conn.prepareStatement(insertSQL, PreparedStatement.RETURN_GENERATED_KEYS)) {
+
+            int userId = Integer.parseInt(Session.getCurrentUserId());
+
+            pstmt.setInt(1, userId);
+            pstmt.setString(2, transcript);
+
+            pstmt.executeUpdate();
+
+            // Get the auto-generated project id
+            ResultSet rs = pstmt.getGeneratedKeys();
+            if (rs.next()) {
+                int newProjectId = rs.getInt(1);
+                Session.setCurrentProjectId(String.valueOf(newProjectId));
+                System.out.println("Transcript saved to database. Project ID: " + newProjectId);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Database error: " + e.getMessage());
+        }
+    }
+
+
+
+
 
 
 
@@ -141,6 +183,21 @@ public class RealtimeSTT {
             saveTranscriptToFile(file.getAbsolutePath());
             statusText.setText("Transcript saved to: " + file.getAbsolutePath());
         }
+    }
+    private void goToFeedbackPage() {
+        try {
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("/feedbackPage.fxml"));
+            Scene scene = new Scene(loader.load(), App.WIDTH, App.HEIGHT);
+            Stage stage = (Stage) FeedbackPageButton.getScene().getWindow();
+            stage.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    public void onFeedbackButtonClick() {
+        goToFeedbackPage();
+
     }
 
 
