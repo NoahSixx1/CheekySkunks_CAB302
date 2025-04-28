@@ -59,4 +59,25 @@ public class Database {
             return false;
         }
     }
+
+    public static String getUserId(String username) {
+        String sql = "SELECT id FROM users WHERE username = ?";
+
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, username); // set the username in the SQL
+
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return String.valueOf(rs.getInt("id")); // or rs.getString("id") if your id is a text
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Database error: " + e.getMessage());
+        }
+
+        return null; // return null if no user found
+    }
 }

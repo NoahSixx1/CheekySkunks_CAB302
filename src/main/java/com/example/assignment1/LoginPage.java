@@ -18,6 +18,7 @@ public class LoginPage {
     @FXML private TextField emailField;
     @FXML private Button toggleButton;
     @FXML private Label modeLabel;
+    private String currentUserid = "";
 
     private boolean isRegisterMode = false;
 
@@ -48,12 +49,16 @@ public class LoginPage {
             }
         } else {
             if (Database.authenticateUser(username, password)) {
+                String userId = Database.getUserId(username);  // <-- get the user's id
+                Session.setCurrentUserId(userId);              // <-- save into session
+                showAlert("Success", "Login successful!");     // <-- fix the alert
                 goToNextPage();
             } else {
                 showAlert("Error", "Invalid username or password.");
             }
         }
     }
+
 
     @FXML
     protected void onCancelButtonClick() {
