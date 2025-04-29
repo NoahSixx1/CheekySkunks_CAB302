@@ -155,19 +155,22 @@ public class Database {
         return leaderboard;
     }
 
-    public static List<String> fillProjectsList(){
+    public static List<String> fillProjectsList(int userid){
         List<String> projects = new ArrayList<>();
         String sql = """
                 SELECT projectid
                 FROM projects
+                WHERE userid = ?
                 """;
         try (Connection conn = DriverManager.getConnection(DB_URL);
-             PreparedStatement pstmt = conn.prepareStatement(sql);
-             ResultSet rs = pstmt.executeQuery()) {
+             PreparedStatement pstmt = conn.prepareStatement(sql)){
+             pstmt.setInt(1, userid);
+             ResultSet rs = pstmt.executeQuery(); {
 
-            while (rs.next()) {
-                String entry = rs.getString("projectid");
-                projects.add(entry);
+                while (rs.next()) {
+                    String entry = rs.getString("projectid");
+                    projects.add(entry);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();

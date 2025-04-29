@@ -18,7 +18,14 @@ public class LoginPage {
     @FXML private TextField emailField;
     @FXML private Button toggleButton;
     @FXML private Label modeLabel;
+
+    public String getCurrentUserid() {
+        return currentUserid;
+    }
+
     private String currentUserid = "";
+
+
 
     private boolean isRegisterMode = false;
 
@@ -81,7 +88,7 @@ public class LoginPage {
 
     private void goToNextPage() {
         try {
-            FXMLLoader loader = new FXMLLoader(App.class.getResource("/recordPage.fxml"));
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("/ProjectsPage.fxml"));
             Scene scene = new Scene(loader.load(), App.WIDTH, App.HEIGHT);
             Stage stage = (Stage) nextButton.getScene().getWindow();
             stage.setScene(scene);
