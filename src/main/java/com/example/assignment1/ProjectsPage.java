@@ -21,7 +21,7 @@ public class ProjectsPage {
     @FXML
     private Button exitButton;
     @FXML
-    private Button nextButton;
+    private Button selectButton;
 
     private void syncContacts() {
         projectsListView.getItems().clear();
@@ -58,7 +58,7 @@ public class ProjectsPage {
         try {
             FXMLLoader loader = new FXMLLoader(App.class.getResource("/recordPage.fxml"));
             Scene scene = new Scene(loader.load(), App.WIDTH, App.HEIGHT);
-            Stage stage = (Stage) nextButton.getScene().getWindow();
+            Stage stage = (Stage) selectButton.getScene().getWindow();
             stage.setScene(scene);
         } catch (IOException e) {
             e.printStackTrace();
@@ -70,7 +70,7 @@ public class ProjectsPage {
         try {
             FXMLLoader loader = new FXMLLoader(App.class.getResource("/loginPage.fxml"));
             Scene scene = new Scene(loader.load(), App.WIDTH, App.HEIGHT);
-            Stage stage = (Stage) nextButton.getScene().getWindow();
+            Stage stage = (Stage) exitButton.getScene().getWindow();
             stage.setScene(scene);
         } catch (IOException e) {
             e.printStackTrace();
@@ -79,14 +79,16 @@ public class ProjectsPage {
 
     @FXML
     public void initialize() {
-        projectsListView.setCellFactory(this::renderCell);
+        //projectsListView.setCellFactory(this::renderCell);
         syncContacts();
         // Select the first contact and display its information
+        /*
         projectsListView.getSelectionModel().selectFirst();
         String firstProject = projectsListView.getSelectionModel().getSelectedItem();
         if (firstProject != null) {
             Session.setCurrentProjectId(firstProject);
         }
+         */
     }
 
 }

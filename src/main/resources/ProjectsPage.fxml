@@ -5,14 +5,21 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 
 <VBox xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.assignment1.ProjectsPage"
-            prefHeight="400.0" prefWidth="600.0">
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.assignment1.ProjectsPage"
+      prefHeight="400.0" prefWidth="600.0"
+      spacing="10">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
     <Button text="Exit" fx:id="exitButton" maxWidth="40" onAction="#goToLoginPage" />
     <Label>Your Projects</Label>
     <ListView fx:id="projectsListView"  />
-    <Button text="New" fx:id="newButton" maxWidth="40"/>
-    <Button text="NextScreen" fx:id="nextButton" maxWidth="80" onAction="#goToNextPage" />
+    <HBox alignment="BOTTOM_LEFT" spacing="10">
+        <Button text="New" fx:id="newButton" maxWidth="40" onAction="#goToNextPage" />
+        <Button text="Select" fx:id="selectButton" maxWidth="80" onAction="#goToNextPage" />
+    </HBox>
 </VBox>
