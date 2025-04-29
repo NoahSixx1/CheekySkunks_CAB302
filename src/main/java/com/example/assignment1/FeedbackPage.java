@@ -1,8 +1,13 @@
 package com.example.assignment1;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Button;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -16,6 +21,9 @@ public class FeedbackPage {
 
     @FXML
     private Button getFeedbackButton;
+
+    @FXML
+    private Button exitButton;
 
     @FXML
     private Button editTextButton;
@@ -65,6 +73,17 @@ public class FeedbackPage {
         } else {
             feedbackTextArea.setEditable(true);
             editTextButton.setText("Finish");
+        }
+    }
+    @FXML
+    private void onExit() {
+        try {
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("/recordPage.fxml"));
+            Scene scene = new Scene(loader.load(), App.WIDTH, App.HEIGHT);
+            Stage stage = (Stage) exitButton.getScene().getWindow();
+            stage.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

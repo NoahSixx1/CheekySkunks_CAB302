@@ -1,4 +1,2 @@
-  pink
-  beep boop
-  schulman
+  the to to do
   "text" : ""

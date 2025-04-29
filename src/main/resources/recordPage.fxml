@@ -1,26 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.layout.VBox?>
 
 
-
-<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.assignment1.RealtimeSTT">
+<?import javafx.geometry.Insets?>
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.assignment1.RealtimeSTT"
+      prefHeight="400.0" prefWidth="600.0"
+      spacing="10">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
     <!-- Status Text: To show whether recording is happening -->
     <Text fx:id="statusText" />
 
     <!-- Transcript Area: To show the real-time transcription -->
     <TextArea fx:id="transcriptArea" wrapText="true"  editable="false"/>
 
-    <!-- Record Button: Start/Stop recording -->
-    <Button fx:id="recordButton" text="Start Recording" onAction="#handleRecordButton"/>
+    <HBox alignment="BOTTOM_LEFT" spacing="10">
+        <Button fx:id="exitButton" text="Exit" onAction="#onExit" />
+        <!-- Record Button: Start/Stop recording -->
+        <Button fx:id="recordButton" text="Start Recording" onAction="#handleRecordButton"/>
 
-    <!-- Download Button: Save the transcript to a file -->
-    <Button fx:id="downloadButton" text="Download Transcript" onAction="#handleDownloadButton"/>
+        <!-- Download Button: Save the transcript to a file -->
+        <Button fx:id="downloadButton" text="Download Transcript" onAction="#handleDownloadButton"/>
 
-    <!-- Feedback Page: Go to feedback page -->
-    <Button fx:id="FeedbackPageButton" text="Get feedback" onAction="#onFeedbackButtonClick"/>
+        <!-- Feedback Page: Go to feedback page -->
+        <Button fx:id="FeedbackPageButton" text="Get feedback" onAction="#onFeedbackButtonClick"/>
+    </HBox>
 
 </VBox>

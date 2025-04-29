@@ -33,6 +33,9 @@ public class RealtimeSTT {
     @FXML
     private Button FeedbackPageButton;
 
+    @FXML
+    private Button exitButton;
+
     private boolean isRecording = false;
     private Recognizer recognizer;
     private TargetDataLine microphone;
@@ -233,6 +236,18 @@ public class RealtimeSTT {
     public void onFeedbackButtonClick() {
         goToFeedbackPage();
 
+    }
+
+    @FXML
+    private void onExit() {
+        try {
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("/ProjectsPage.fxml"));
+            Scene scene = new Scene(loader.load(), App.WIDTH, App.HEIGHT);
+            Stage stage = (Stage) exitButton.getScene().getWindow();
+            stage.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 

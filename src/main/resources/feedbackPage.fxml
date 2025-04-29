@@ -3,16 +3,22 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Label?>
 
-<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.assignment1.FeedbackPage" spacing="10" alignment="CENTER" style="-fx-padding: 20;">
-
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.assignment1.FeedbackPage" spacing="10" prefHeight="400.0" prefWidth="600.0" style="-fx-padding: 20;">
+    <Label>Feedback</Label>
     <!-- TextArea to display the transcript text -->
     <TextArea fx:id="feedbackTextArea" wrapText="true" prefHeight="400" prefWidth="600" editable="false"/>
 
-    <!-- Button to get feedback -->
-    <Button fx:id="getFeedbackButton" text="Get Feedback" onAction="#handleGetFeedbackButton"/>
+    <HBox alignment="BOTTOM_LEFT" spacing="10">
+        <Button fx:id="exitButton" text="Exit" onAction="#onExit" />
 
-    <!-- Button to allow editing the text -->
-    <Button fx:id="editTextButton" text="Edit Text" onAction="#handleEditTextButton"/>
+        <!-- Button to get feedback -->
+        <Button fx:id="getFeedbackButton" text="Get Feedback" onAction="#handleGetFeedbackButton"/>
+
+        <!-- Button to allow editing the text -->
+        <Button fx:id="editTextButton" text="Edit Text" onAction="#handleEditTextButton"/>
+    </HBox>
 
 </VBox>
