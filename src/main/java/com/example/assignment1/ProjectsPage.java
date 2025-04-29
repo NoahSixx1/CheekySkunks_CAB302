@@ -25,12 +25,32 @@ public class ProjectsPage {
 
     private void syncContacts() {
         projectsListView.getItems().clear();
-        List<String> projects = Database.fillProjectsList(5);
+        List<String> projects = Database.fillProjectsList(Session.getCurrentUserId());
+        //LoginPage.getCurrentUserid()
         boolean hasProject = !projects.isEmpty();
         System.out.println(projects);
         if (hasProject) {
             projectsListView.getItems().addAll(projects);
         }
+    }
+
+    private ListCell<String> renderCell(ListView<String> contactListView) {
+        return new ListCell<>() {
+            /**
+             * Handles the event when a contact is selected in the list view.
+             *
+             * @param mouseEvent The event to handle.
+             */
+            private void onContactSelected(MouseEvent mouseEvent) {
+                ListCell<String> clickedCell = (ListCell<String>) mouseEvent.getSource();
+                // Get the selected contact from the list view
+                String selectedProject = clickedCell.getItem();
+                System.out.println(selectedProject);
+                if (selectedProject != null) {
+                    Session.setCurrentProjectId(selectedProject);
+                }
+            }
+        };
     }
 
     @FXML
@@ -46,8 +66,27 @@ public class ProjectsPage {
     }
 
     @FXML
+    private void goToLoginPage() {
+        try {
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("/loginPage.fxml"));
+            Scene scene = new Scene(loader.load(), App.WIDTH, App.HEIGHT);
+            Stage stage = (Stage) nextButton.getScene().getWindow();
+            stage.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     public void initialize() {
+        projectsListView.setCellFactory(this::renderCell);
         syncContacts();
+        // Select the first contact and display its information
+        projectsListView.getSelectionModel().selectFirst();
+        String firstProject = projectsListView.getSelectionModel().getSelectedItem();
+        if (firstProject != null) {
+            Session.setCurrentProjectId(firstProject);
+        }
     }
 
 }

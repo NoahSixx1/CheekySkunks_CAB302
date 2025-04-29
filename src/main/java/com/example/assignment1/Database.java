@@ -155,7 +155,7 @@ public class Database {
         return leaderboard;
     }
 
-    public static List<String> fillProjectsList(int userid){
+    public static List<String> fillProjectsList(String userid){
         List<String> projects = new ArrayList<>();
         String sql = """
                 SELECT projectid
@@ -164,7 +164,7 @@ public class Database {
                 """;
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement pstmt = conn.prepareStatement(sql)){
-             pstmt.setInt(1, userid);
+             pstmt.setString(1, userid);
              ResultSet rs = pstmt.executeQuery(); {
 
                 while (rs.next()) {

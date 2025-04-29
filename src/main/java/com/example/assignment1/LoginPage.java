@@ -19,13 +19,7 @@ public class LoginPage {
     @FXML private Button toggleButton;
     @FXML private Label modeLabel;
 
-    public String getCurrentUserid() {
-        return currentUserid;
-    }
-
     private String currentUserid = "";
-
-
 
     private boolean isRegisterMode = false;
 
@@ -57,7 +51,7 @@ public class LoginPage {
         } else {
             if (Database.authenticateUser(username, password)) {
                 String userId = Database.getUserId(username);  // <-- get the user's id
-                Session.setCurrentUserId(userId);              // <-- save into session
+                Session.setCurrentUserId(userId); // <-- save into session
                 showAlert("Success", "Login successful!");     // <-- fix the alert
                 goToNextPage();
             } else {

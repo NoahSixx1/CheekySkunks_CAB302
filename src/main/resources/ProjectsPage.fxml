@@ -10,7 +10,7 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.example.assignment1.ProjectsPage"
             prefHeight="400.0" prefWidth="600.0">
-    <Button text="Exit" fx:id="exitButton" maxWidth="40" />
+    <Button text="Exit" fx:id="exitButton" maxWidth="40" onAction="#goToLoginPage" />
     <Label>Your Projects</Label>
     <ListView fx:id="projectsListView"  />
     <Button text="New" fx:id="newButton" maxWidth="40"/>
