@@ -27,7 +27,7 @@ public class ProjectsPage {
         projectsListView.getItems().clear();
         List<String> projects = Database.fillProjectsList(Session.getCurrentUserId());
         boolean hasProject = !projects.isEmpty();
-        System.out.println(projects);
+        //System.out.println(projects);
         if (hasProject) {
             projectsListView.getItems().addAll(projects);
         }
@@ -44,7 +44,7 @@ public class ProjectsPage {
                 ListCell<String> clickedCell = (ListCell<String>) mouseEvent.getSource();
                 // Get the selected contact from the list view
                 String selectedProject = clickedCell.getItem();
-                System.out.println(selectedProject);
+                System.out.println("selectedid: " + selectedProject);
                 if (selectedProject != null) {
                     Session.setCurrentProjectId(selectedProject);
                 }
@@ -97,11 +97,10 @@ public class ProjectsPage {
         projectsListView.setCellFactory(this::renderCell);
         syncContacts();
         // Select the first contact and display its information
-
         projectsListView.getSelectionModel().selectFirst();
         String firstProject = projectsListView.getSelectionModel().getSelectedItem();
         if (firstProject != null) {
-            System.out.println(firstProject);
+            System.out.println("firstid: " + firstProject);
             Session.setCurrentProjectId(firstProject);
         }
 
