@@ -14,13 +14,16 @@ public class ProjectsPage {
     private ListView<String> projectsListView;
     @FXML
     private Button newButton;
+    @FXML
+    private Button exitButton;
 
     private void syncContacts() {
         projectsListView.getItems().clear();
         List<String> projects = Database.fillProjectsList();
         boolean hasProject = !projects.isEmpty();
+        System.out.println(projects);
         if (hasProject) {
-            projectsListView.getItems().addAll();
+            projectsListView.getItems().addAll(projects);
         }
     }
 
