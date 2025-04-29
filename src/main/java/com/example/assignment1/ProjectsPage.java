@@ -26,7 +26,6 @@ public class ProjectsPage {
     private void syncContacts() {
         projectsListView.getItems().clear();
         List<String> projects = Database.fillProjectsList(Session.getCurrentUserId());
-        //LoginPage.getCurrentUserid()
         boolean hasProject = !projects.isEmpty();
         System.out.println(projects);
         if (hasProject) {
@@ -48,6 +47,22 @@ public class ProjectsPage {
                 System.out.println(selectedProject);
                 if (selectedProject != null) {
                     Session.setCurrentProjectId(selectedProject);
+                }
+            }
+            /**
+             * Updates the item in the cell by setting the text to the contact's full name.
+             * @param project The project to update the cell with.
+             * @param empty Whether the cell is empty.
+             */
+            @Override
+            protected void updateItem(String project, boolean empty) {
+                super.updateItem(project, empty);
+                // If the cell is empty, set the text to null, otherwise set it to the contact's full name
+                if (empty || project == null) {
+                    setText(null);
+                    super.setOnMouseClicked(this::onContactSelected);
+                } else {
+                    setText(project);
                 }
             }
         };
@@ -79,16 +94,17 @@ public class ProjectsPage {
 
     @FXML
     public void initialize() {
-        //projectsListView.setCellFactory(this::renderCell);
+        projectsListView.setCellFactory(this::renderCell);
         syncContacts();
         // Select the first contact and display its information
-        /*
+
         projectsListView.getSelectionModel().selectFirst();
         String firstProject = projectsListView.getSelectionModel().getSelectedItem();
         if (firstProject != null) {
+            System.out.println(firstProject);
             Session.setCurrentProjectId(firstProject);
         }
-         */
+
     }
 
 }
