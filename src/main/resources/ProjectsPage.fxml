@@ -15,10 +15,10 @@
     <padding>
         <Insets top="20" right="20" bottom="20" left="20"/>
     </padding>
-    <Button text="Exit" fx:id="exitButton" maxWidth="40" onAction="#goToLoginPage" />
     <Label>Your Projects</Label>
     <ListView fx:id="projectsListView"  />
     <HBox alignment="BOTTOM_LEFT" spacing="10">
+        <Button text="Exit" fx:id="exitButton" maxWidth="40" onAction="#goToLoginPage" />
         <Button text="New" fx:id="newButton" maxWidth="40" onAction="#goToNextPage" />
         <Button text="Select" fx:id="selectButton" maxWidth="80" onAction="#goToNextPage" />
     </HBox>
