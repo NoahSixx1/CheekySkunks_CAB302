@@ -154,4 +154,24 @@ public class Database {
         }
         return leaderboard;
     }
+
+    public static List<String> fillProjectsList(){
+        List<String> projects = new ArrayList<>();
+        String sql = """
+                SELECT projectid
+                FROM projects
+                """;
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            while (rs.next()) {
+                String entry = rs.getString("projectid");
+                projects.add(entry);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return projects;
+    }
 }
