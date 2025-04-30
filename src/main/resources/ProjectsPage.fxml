@@ -21,5 +21,6 @@
         <Button text="Exit" fx:id="exitButton" maxWidth="40" onAction="#goToLoginPage" />
         <Button text="New" fx:id="newButton" maxWidth="40" onAction="#goToNextPage" />
         <Button text="Select" fx:id="selectButton" maxWidth="80" onAction="#goToNextPage" />
+        <Button text="Leaderboard" fx:id="leaderboardButton" onAction="#onLeaderboardClick"/>
     </HBox>
 </VBox>

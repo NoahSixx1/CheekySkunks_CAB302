@@ -250,5 +250,42 @@ public class RealtimeSTT {
         }
     }
 
+    @FXML
+    private Button leaderboardButton;
+
+    @FXML
+    private void onLeaderboardClick() {
+        try {
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("/leaderboard.fxml"));
+            Scene scene = new Scene(loader.load(), App.WIDTH, App.HEIGHT);
+            Stage stage = (Stage) leaderboardButton.getScene().getWindow();
+            stage.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void saveToLeaderboard(int userId, String rap, int score) {
+        String url = "jdbc:sqlite:skunks.db";
+        String sql = "INSERT INTO leaderboard (userid, transcript, score) VALUES (?, ?, ?)";
+
+        try (Connection conn = DriverManager.getConnection(url);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, userId);
+            pstmt.setString(2, rap);
+            pstmt.setInt(3, score);
+            pstmt.executeUpdate();
+            System.out.println("Rap added to leaderboard with score: " + score);
+        } catch (SQLException e) {
+            System.out.println("Leaderboard error: " + e.getMessage());
+        }
+    }
+
+    private int calculateScore(String transcript) {
+        String[] words = transcript.trim().split("\\s+");
+        return words.length; // Example: Score = total number of words
+    }
+
+
 
 }

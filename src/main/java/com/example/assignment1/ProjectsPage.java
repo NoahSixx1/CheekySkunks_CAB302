@@ -23,6 +23,9 @@ public class ProjectsPage {
     @FXML
     private Button selectButton;
 
+    @FXML
+    private Button leaderboardButton;  // Add the leaderboard button reference
+
     private void syncContacts() {
         projectsListView.getItems().clear();
         List<String> projects = Database.fillProjectsList(Session.getCurrentUserId());
@@ -89,6 +92,22 @@ public class ProjectsPage {
             stage.setScene(scene);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+    @FXML
+    private void onLeaderboardClick() {
+        try {
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("/Leaderboard.fxml"));
+            Scene leaderboardScene = new Scene(loader.load(), App.WIDTH, App.HEIGHT);
+            Stage stage = (Stage) leaderboardButton.getScene().getWindow();
+            stage.setScene(leaderboardScene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Optionally show an alert if the scene can't be loaded
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Unable to load the leaderboard page.");
+            alert.show();
         }
     }
 

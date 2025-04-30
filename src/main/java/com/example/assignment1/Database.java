@@ -26,7 +26,6 @@ public class Database {
                     userid INTEGER NOT NULL,
                     projectid INTEGER PRIMARY KEY AUTOINCREMENT,
                     transcript TEXT
-
                 );
             """;
             stmt.execute(createProjectsTable);
@@ -92,24 +91,19 @@ public class Database {
             return false;
         }
     }
-    public static String getUserId(String username) {
-        String sql = "SELECT id FROM users WHERE username = ?";
 
+    public static Integer getUserId(String username) {
+        String sql = "SELECT id FROM users WHERE username = ?";
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, username); // set the username in the SQL
-
+            pstmt.setString(1, username);
             ResultSet rs = pstmt.executeQuery();
-
             if (rs.next()) {
-                return String.valueOf(rs.getInt("id")); // or rs.getString("id") if your id is a text
+                return rs.getInt("id");
             }
-
         } catch (SQLException e) {
             System.out.println("Database error: " + e.getMessage());
         }
-
         return null; // return null if no user found
     }
 
@@ -133,8 +127,8 @@ public class Database {
         }
     }
 
-    public static List<String> getLeaderboard() {
-        List<String> leaderboard = new ArrayList<>();
+    public static List<LeaderboardEntry> getLeaderboard() {
+        List<LeaderboardEntry> leaderboard = new ArrayList<>();
         String sql = """
             SELECT u.username, l.score
             FROM leaderboard l
@@ -146,8 +140,9 @@ public class Database {
              ResultSet rs = pstmt.executeQuery()) {
 
             while (rs.next()) {
-                String entry = rs.getString("username") + " - " + rs.getInt("score") + " points";
-                leaderboard.add(entry);
+                String user = rs.getString("username");
+                int score = rs.getInt("score");
+                leaderboard.add(new LeaderboardEntry(user, "", score)); // Empty rap for now, modify if needed
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -155,22 +150,20 @@ public class Database {
         return leaderboard;
     }
 
-    public static List<String> fillProjectsList(String userid){
+    public static List<String> fillProjectsList(String userid) {
         List<String> projects = new ArrayList<>();
         String sql = """
-                SELECT projectid
-                FROM projects
-                WHERE userid = ?
-                """;
+            SELECT projectid
+            FROM projects
+            WHERE userid = ?
+            """;
         try (Connection conn = DriverManager.getConnection(DB_URL);
-             PreparedStatement pstmt = conn.prepareStatement(sql)){
-             pstmt.setString(1, userid);
-             ResultSet rs = pstmt.executeQuery(); {
-
-                while (rs.next()) {
-                    String entry = rs.getString("projectid");
-                    projects.add(entry);
-                }
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, userid);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                String entry = rs.getString("projectid");
+                projects.add(entry);
             }
         } catch (SQLException e) {
             e.printStackTrace();
