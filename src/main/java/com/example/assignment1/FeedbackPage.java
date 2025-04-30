@@ -59,10 +59,23 @@ public class FeedbackPage {
 
     @FXML
     public void handleGetFeedbackButton() {
+        System.out.println("Button is pressed");
+        OllamaAPITest test = new OllamaAPITest();
+        String prompt = "analyse these rap lyrics and give me a score:" + feedbackTextArea.getText();
+        OllamaSyncResponse generateResponse = new OllamaSyncResponse(prompt);
+        try {
+            String result = generateResponse.ollamaResponse();
+
+            System.out.println("Our feedback: " + result);
+            String feedback = "Our feedback: " + result;
+            feedbackTextArea.appendText("\n\n" + feedback);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
         // Dummy feedback: count words
-        String currentText = feedbackTextArea.getText();
-        String feedback = "Feedback: Your text has " + currentText.split("\\s+").length + " words.";
-        feedbackTextArea.appendText("\n\n" + feedback);
+        //String currentText = feedbackTextArea.getText();
+        //String feedback = "Feedback: Your text has " + currentText.split("\\s+").length + " words.";
+        //feedbackTextArea.appendText("\n\n" + feedback);
     }
 
     @FXML
