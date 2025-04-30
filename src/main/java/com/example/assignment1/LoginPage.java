@@ -10,8 +10,10 @@ import java.io.IOException;
 
 public class LoginPage {
     @FXML private TextArea termsAndConditions;
-    @FXML private CheckBox agreeCheckBox;
-    @FXML private Button nextButton;
+    @FXML
+    public CheckBox agreeCheckBox;
+    @FXML
+    public Button nextButton;
     @FXML private TextField usernameField;
     @FXML private PasswordField passwordField;
     @FXML private TextField nameField;
@@ -21,7 +23,7 @@ public class LoginPage {
 
     private String currentUserid = "";
 
-    private boolean isRegisterMode = false;
+    public boolean isRegisterMode = false;
 
     @FXML
     public void initialize() {
@@ -30,7 +32,7 @@ public class LoginPage {
     }
 
     @FXML
-    protected void onAgreeCheckBoxClick() {
+    public void onAgreeCheckBoxClick() {
         nextButton.setDisable(!agreeCheckBox.isSelected());
     }
 
@@ -67,7 +69,7 @@ public class LoginPage {
     }
 
     @FXML
-    protected void onToggleButtonClick() {
+    public void onToggleButtonClick() {
         isRegisterMode = !isRegisterMode;
         toggleMode();
     }
