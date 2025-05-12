@@ -15,6 +15,7 @@
     <padding>
         <Insets top="20" right="20" bottom="20" left="20"/>
     </padding>
+    <TextField fx:id="projectName" promptText="Name"/>
     <!-- Status Text: To show whether recording is happening -->
     <Text fx:id="statusText" />
 

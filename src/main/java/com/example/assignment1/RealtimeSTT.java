@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -36,6 +37,9 @@ public class RealtimeSTT {
     @FXML
     private Button exitButton;
 
+    @FXML
+    private TextField projectName;
+
     private boolean isRecording = false;
     private Recognizer recognizer;
     private TargetDataLine microphone;
@@ -54,6 +58,7 @@ public class RealtimeSTT {
     @FXML
     public void initialize() throws IOException {
         recognizer = new Recognizer(model, SAMPLE_RATE);
+        projectName.setText("New Project");
     }
 
     @FXML

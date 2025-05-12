@@ -13,9 +13,11 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.List;
 
+import static java.lang.String.*;
+
 public class ProjectsPage {
     @FXML
-    private ListView<String> projectsListView;
+    private ListView<Project> projectsListView;
     @FXML
     private Button newButton;
     @FXML
@@ -28,7 +30,7 @@ public class ProjectsPage {
 
     private void syncContacts() {
         projectsListView.getItems().clear();
-        List<String> projects = Database.fillProjectsList(Session.getCurrentUserId());
+        List<Project> projects = Database.fillProjectsList(Session.getCurrentUserId());
         boolean hasProject = !projects.isEmpty();
         //System.out.println(projects);
         if (hasProject) {
@@ -36,20 +38,20 @@ public class ProjectsPage {
         }
     }
 
-    private ListCell<String> renderCell(ListView<String> contactListView) {
-        return new ListCell<>() {
+    private ListCell<Project> renderCell(ListView<Project> contactListView) {
+        return new ListCell<Project>() {
             /**
              * Handles the event when a contact is selected in the list view.
              *
              * @param mouseEvent The event to handle.
              */
             private void onContactSelected(MouseEvent mouseEvent) {
-                ListCell<String> clickedCell = (ListCell<String>) mouseEvent.getSource();
+                ListCell<Project> clickedCell = (ListCell<Project>) mouseEvent.getSource();
                 // Get the selected contact from the list view
-                String selectedProject = clickedCell.getItem();
-                System.out.println("selectedid: " + selectedProject);
+                Project selectedProject = clickedCell.getItem();
+                System.out.println("selectedid: " + selectedProject.getProjectid());
                 if (selectedProject != null) {
-                    Session.setCurrentProjectId(selectedProject);
+                    Session.setCurrentProjectId(String.valueOf(selectedProject.getProjectid()));
                 }
             }
             /**
@@ -58,14 +60,14 @@ public class ProjectsPage {
              * @param empty Whether the cell is empty.
              */
             @Override
-            protected void updateItem(String project, boolean empty) {
+            protected void updateItem(Project project, boolean empty) {
                 super.updateItem(project, empty);
                 // If the cell is empty, set the text to null, otherwise set it to the contact's full name
                 if (empty || project == null) {
                     setText(null);
                     super.setOnMouseClicked(this::onContactSelected);
                 } else {
-                    setText(project);
+                    setText(project.getProjectname());
                 }
             }
         };
@@ -117,10 +119,10 @@ public class ProjectsPage {
         syncContacts();
         // Select the first contact and display its information
         projectsListView.getSelectionModel().selectFirst();
-        String firstProject = projectsListView.getSelectionModel().getSelectedItem();
+        Project firstProject = projectsListView.getSelectionModel().getSelectedItem();
         if (firstProject != null) {
             System.out.println("firstid: " + firstProject);
-            Session.setCurrentProjectId(firstProject);
+            Session.setCurrentProjectId(String.valueOf(firstProject.getProjectid()));
         }
 
     }

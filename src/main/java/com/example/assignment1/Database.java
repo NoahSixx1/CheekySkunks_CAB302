@@ -25,6 +25,7 @@ public class Database {
                 CREATE TABLE IF NOT EXISTS projects (
                     userid INTEGER NOT NULL,
                     projectid INTEGER PRIMARY KEY AUTOINCREMENT,
+                    projectname STRING,
                     transcript TEXT
                 );
             """;
@@ -150,10 +151,10 @@ public class Database {
         return leaderboard;
     }
 
-    public static List<String> fillProjectsList(String userid) {
-        List<String> projects = new ArrayList<>();
+    public static List<Project> fillProjectsList(String userid) {
+        List<Project> projects = new ArrayList<>();
         String sql = """
-            SELECT projectid
+            SELECT *
             FROM projects
             WHERE userid = ?
             """;
@@ -162,8 +163,10 @@ public class Database {
             pstmt.setString(1, userid);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                String entry = rs.getString("projectid");
-                projects.add(entry);
+                int currentuserid = rs.getInt("userid");
+                int currentprojectid = rs.getInt("projectid");
+                String currentprojectname = rs.getString("projectname");
+                projects.add(new Project(currentuserid, currentprojectid, currentprojectname));
             }
         } catch (SQLException e) {
             e.printStackTrace();
