@@ -1,30 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<VBox alignment="TOP_LEFT" spacing="10.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.assignment1.LoginPage">
+<VBox alignment="TOP_LEFT" spacing="10.0" style="-fx-border-color: #5F3985; -fx-border-width: 10;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.example.assignment1.LoginPage">
     <padding>
-        <Insets top="20" right="20" bottom="20" left="20"/>
+        <Insets bottom="20" left="20" right="20" top="20" />
     </padding>
 
-    <Label text="Welcome to Skunk's Rap. Please read and agree to the terms and conditions." wrapText="true"/>
-    <TextArea fx:id="termsAndConditions" wrapText="true" editable="false"/>
+    <Label text="Welcome to Skunk's Rap. Please read and agree to the terms and conditions." wrapText="true" />
+    <TextArea fx:id="termsAndConditions" editable="false" wrapText="true" />
 
-    <CheckBox fx:id="agreeCheckBox" text="I agree to the terms and conditions." onAction="#onAgreeCheckBoxClick"/>
+    <CheckBox fx:id="agreeCheckBox" onAction="#onAgreeCheckBoxClick" text="I agree to the terms and conditions." />
 
-    <Label fx:id="modeLabel" text="Login"/>
+    <Label fx:id="modeLabel" text="Login" />
 
-    <TextField fx:id="usernameField" promptText="Username"/>
-    <PasswordField fx:id="passwordField" promptText="Password"/>
-    <TextField fx:id="nameField" promptText="Full Name" visible="false"/>
-    <TextField fx:id="emailField" promptText="Email" visible="false"/>
+    <TextField fx:id="usernameField" promptText="Username" />
+    <PasswordField fx:id="passwordField" promptText="Password" />
+    <TextField fx:id="nameField" promptText="Full Name" visible="false" />
+    <TextField fx:id="emailField" promptText="Email" visible="false" />
 
     <HBox alignment="BOTTOM_RIGHT" spacing="10.0">
-        <Button text="Cancel" onAction="#onCancelButtonClick"/>
-        <Button fx:id="toggleButton" text="Switch to Register" onAction="#onToggleButtonClick"/>
-        <Button fx:id="nextButton" text="Login" onAction="#onNextButtonClick" disable="true"/>
+        <Button onAction="#onCancelButtonClick" text="Cancel" />
+        <Button fx:id="toggleButton" onAction="#onToggleButtonClick" text="Switch to Register" />
+        <Button fx:id="nextButton" disable="true" onAction="#onNextButtonClick" text="Login" />
     </HBox>
 </VBox>
