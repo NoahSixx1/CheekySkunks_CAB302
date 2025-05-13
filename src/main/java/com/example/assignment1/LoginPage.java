@@ -18,6 +18,8 @@ public class LoginPage {
     @FXML private TextField emailField;
     @FXML private Button toggleButton;
     @FXML private Label modeLabel;
+    @FXML private Label nameLabel;
+    @FXML private Label emailLabel;
 
     private String currentUserid = "";
 
@@ -97,6 +99,8 @@ public class LoginPage {
     private void toggleMode() {
         nameField.setVisible(isRegisterMode);
         emailField.setVisible(isRegisterMode);
+        nameLabel.setVisible(isRegisterMode);
+        emailLabel.setVisible(isRegisterMode);
         toggleButton.setText(isRegisterMode ? "Switch to Login" : "Switch to Register");
         nextButton.setText(isRegisterMode ? "Register" : "Login");
         modeLabel.setText(isRegisterMode ? "Register New Account" : "Login");
