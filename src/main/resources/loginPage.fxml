@@ -13,7 +13,7 @@
 <VBox alignment="TOP_LEFT" spacing="10.0" style="-fx-border-color: #5F3985; -fx-border-width: 10;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.example.assignment1.LoginPage">
     <padding>
         <Insets bottom="20" left="20" right="20" top="20" />
-    </padding>
+    </padding>  // Delete later
 
     <Label text="Welcome to Skunk's Rap. Please read and agree to the terms and conditions." wrapText="true" />
     <TextArea fx:id="termsAndConditions" editable="false" wrapText="true" />
