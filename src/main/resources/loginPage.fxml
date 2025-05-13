@@ -74,7 +74,7 @@
                 <TextField fx:id="nameField" prefHeight="30.0" prefWidth="390.0" promptText="......" visible="false" />
             </children>
          </HBox>
-         <HBox alignment="CENTER" prefHeight="55.0" prefWidth="512.0" spacing="62.0">
+         <HBox alignment="CENTER" prefHeight="55.0" prefWidth="512.0" spacing="61.0">
             <children>
                <Label fx:id="emailLabel" text="Email:">
                   <font>
