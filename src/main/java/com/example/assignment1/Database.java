@@ -66,6 +66,21 @@ public class Database {
             return false;
         }
     }
+    public static boolean emailExists(String email) {
+        // Pseudo‐code: adapt to your actual JDBC or ORM setup
+        String sql = "SELECT COUNT(*) FROM users WHERE email = ?";
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;  // or true to be safe on error
+    }
 
     private static void initializeLeaderboardEntry(int userId) {
         String sql = "INSERT INTO leaderboard (userid, score) VALUES (?, 0)";
