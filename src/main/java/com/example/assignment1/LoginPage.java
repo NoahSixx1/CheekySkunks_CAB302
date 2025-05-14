@@ -20,6 +20,7 @@ public class LoginPage {
     @FXML private Label modeLabel;
     @FXML private Label nameLabel;
     @FXML private Label emailLabel;
+    @FXML private Label TermsLabel;
 
     private String currentUserid = "";
 
@@ -125,6 +126,7 @@ public class LoginPage {
         emailField.setVisible(isRegisterMode);
         nameLabel.setVisible(isRegisterMode);
         emailLabel.setVisible(isRegisterMode);
+        TermsLabel.setVisible(isRegisterMode);
 
         // **new**: show the terms & checkbox only when registering
         termsAndConditions.setVisible(isRegisterMode);

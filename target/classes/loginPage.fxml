@@ -16,7 +16,7 @@
         <Insets bottom="20" left="20" right="20" top="20" />
     </padding>
 
-    <Label text="Welcome to Skunk's Rap. Please read and agree to the terms and conditions." wrapText="true">
+    <Label fx:id="TermsLabel" text="Welcome to Skunk's Rap. Please read and agree to the terms and conditions." visible="false" wrapText="true">
       <font>
          <Font size="15.0" />
       </font></Label>
