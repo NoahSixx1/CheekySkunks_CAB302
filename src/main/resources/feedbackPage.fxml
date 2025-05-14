@@ -1,24 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.assignment1.FeedbackPage" spacing="10" prefHeight="400.0" prefWidth="600.0" style="-fx-padding: 20;">
-    <Label>Feedback</Label>
+<VBox prefHeight="611.0" prefWidth="769.0" spacing="10" style="-fx-padding: 20; -fx-border-color: #5F3985; -fx-border-width: 10;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.example.assignment1.FeedbackPage">
+   <VBox alignment="CENTER" prefHeight="105.0" prefWidth="729.0" spacing="30.0">
+      <children>
+         <Label text="Skunks Rap">
+            <font>
+               <Font size="40.0" />
+            </font>
+         </Label>
+         <Label text="Feedback Page">
+            <font>
+               <Font size="30.0" />
+            </font>
+         </Label>
+      </children>
+   </VBox>
+   <HBox alignment="CENTER_RIGHT" prefHeight="49.0" prefWidth="628.0">
+      <children>
+           <Button fx:id="exitButton" onAction="#onExit" prefHeight="40.0" prefWidth="140.0" style="-fx-background-color: #5F3985;" text="Exit" textFill="WHITE" />
+      </children>
+   </HBox>
+    <Label text="Your Feedback:">
+      <font>
+         <Font size="20.0" />
+      </font></Label>
     <!-- TextArea to display the transcript text -->
-    <TextArea fx:id="feedbackTextArea" wrapText="true" prefHeight="400" prefWidth="600" editable="false"/>
+    <TextArea fx:id="feedbackTextArea" editable="false" prefHeight="281.0" prefWidth="729.0" wrapText="true" />
 
-    <HBox alignment="BOTTOM_LEFT" spacing="10">
-        <Button fx:id="exitButton" text="Exit" onAction="#onExit" />
+    <HBox alignment="CENTER" prefHeight="47.0" prefWidth="628.0" spacing="100.0" style="-fx-background-color: #5F3985;">
 
         <!-- Button to get feedback -->
-        <Button fx:id="getFeedbackButton" text="Get Feedback" onAction="#handleGetFeedbackButton"/>
+        <Button fx:id="getFeedbackButton" onAction="#handleGetFeedbackButton" prefHeight="40.0" prefWidth="140.0" style="-fx-background-color: #FFFF;" text="Get Feedback" />
 
         <!-- Button to allow editing the text -->
-        <Button fx:id="editTextButton" text="Edit Text" onAction="#handleEditTextButton"/>
+        <Button fx:id="editTextButton" onAction="#handleEditTextButton" prefHeight="40.0" prefWidth="140.0" style="-fx-background-color: #FFFF;" text="Edit Text" />
     </HBox>
 
 </VBox>

@@ -6,17 +6,40 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<VBox prefHeight="400.0" prefWidth="600.0" spacing="10" style="-fx-background-color: #5F3985;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.assignment1.ProjectsPage">
+<VBox prefHeight="697.0" prefWidth="912.0" spacing="10" style="-fx-border-color: #5F3985; -fx-border-width: 10;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.assignment1.ProjectsPage">
     <padding>
         <Insets bottom="20" left="20" right="20" top="20" />
     </padding>
-    <Label>Your Projects</Label>
+   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="30.0">
+      <children>
+         <Label text="Skunks Rap">
+            <font>
+               <Font size="40.0" />
+            </font>
+         </Label>
+         <Label text="Projects Page">
+            <font>
+               <Font size="30.0" />
+            </font>
+         </Label>
+      </children>
+   </VBox>
+   <HBox alignment="CENTER_RIGHT" prefHeight="126.0" prefWidth="852.0">
+      <children>
+           <Button fx:id="exitButton" onAction="#goToLoginPage" prefHeight="40.0" prefWidth="110.0" style="-fx-background-color: #5F3985;" text="Exit" textFill="WHITE" />
+      </children>
+   </HBox>
+    <Label text="Your Projects:">
+      <font>
+         <Font size="20.0" />
+      </font>
+   </Label>
     <ListView fx:id="projectsListView" />
-    <HBox alignment="BOTTOM_LEFT" spacing="10">
-        <Button fx:id="exitButton" maxWidth="40" onAction="#goToLoginPage" text="Exit" />
-        <Button fx:id="newButton" maxWidth="40" onAction="#goToNextPage" text="New" />
-        <Button fx:id="selectButton" maxWidth="80" onAction="#goToNextPage" text="Select" />
-        <Button fx:id="leaderboardButton" onAction="#onLeaderboardClick" text="Leaderboard" />
+    <HBox alignment="CENTER" prefHeight="146.0" prefWidth="626.0" spacing="30.0" style="-fx-background-color: #5F3985;">
+        <Button fx:id="newButton" onAction="#goToNextPage" prefHeight="40.0" prefWidth="110.0" style="-fx-background-color: #FFFF;" text="New" />
+        <Button fx:id="selectButton" onAction="#goToNextPage" prefHeight="40.0" prefWidth="110.0" style="-fx-background-color: #FFFF;" text="Select" />
+        <Button fx:id="leaderboardButton" onAction="#onLeaderboardClick" prefHeight="40.0" prefWidth="110.0" style="-fx-background-color: #FFFF;" text="Leaderboard" />
     </HBox>
 </VBox>

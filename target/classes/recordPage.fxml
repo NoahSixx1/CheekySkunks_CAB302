@@ -1,28 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.text.Text?>
-<?import javafx.scene.layout.VBox?>
-
-
 <?import javafx.geometry.Insets?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.assignment1.RealtimeSTT"
-      prefHeight="400.0" prefWidth="600.0"
-      spacing="10">
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox prefHeight="683.0" prefWidth="789.0" spacing="10" style="-fx-border-color: #5F3985; -fx-border-width: 10;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.example.assignment1.RealtimeSTT">
     <padding>
-        <Insets top="20" right="20" bottom="20" left="20"/>
+        <Insets bottom="20" left="20" right="20" top="20" />
     </padding>
+   <VBox alignment="CENTER" prefHeight="59.0" prefWidth="654.0" spacing="30.0">
+      <children>
+         <Label text="Skunks Rap">
+            <font>
+               <Font size="40.0" />
+            </font>
+         </Label>
+         <Label text="Recording Page">
+            <font>
+               <Font size="30.0" />
+            </font>
+         </Label>
+      </children>
+   </VBox>
     <!-- Status Text: To show whether recording is happening -->
     <Text fx:id="statusText" />
+   <HBox alignment="CENTER_RIGHT" prefHeight="62.0" prefWidth="749.0">
+      <children>
+           <Button fx:id="exitButton" onAction="#onExit" prefHeight="40.0" prefWidth="140.0" style="-fx-background-color: #5F3985;" text="Exit" textFill="WHITE" />
+      </children>
+   </HBox>
+   <Label text="Your Recording:" />
 
     <!-- Transcript Area: To show the real-time transcription -->
-    <TextArea fx:id="transcriptArea" wrapText="true"  editable="false"/>
+    <TextArea fx:id="transcriptArea" editable="false" prefHeight="333.0" prefWidth="749.0" wrapText="true" />
 
-    <HBox alignment="BOTTOM_LEFT" spacing="10">
-        <Button fx:id="exitButton" text="Exit" onAction="#onExit" />
+    <HBox alignment="CENTER" prefHeight="88.0" prefWidth="721.0" spacing="30.0" style="-fx-background-color: #5F3985;">
         <!-- Record Button: Start/Stop recording -->
 
         <Button fx:id="chooseBeatButton" text="Choose Beat" onAction="#handleChooseBeat" />
@@ -34,7 +51,6 @@
 
         <!-- Feedback Page: Go to feedback page -->
         <Button fx:id="FeedbackPageButton" text="Get feedback" onAction="#onFeedbackButtonClick"/>
-
     </HBox>
 
 </VBox>
