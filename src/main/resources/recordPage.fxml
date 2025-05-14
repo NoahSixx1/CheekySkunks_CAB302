@@ -24,6 +24,9 @@
     <HBox alignment="BOTTOM_LEFT" spacing="10">
         <Button fx:id="exitButton" text="Exit" onAction="#onExit" />
         <!-- Record Button: Start/Stop recording -->
+
+        <Button fx:id="chooseBeatButton" text="Choose Beat" onAction="#handleChooseBeat" />
+
         <Button fx:id="recordButton" text="Start Recording" onAction="#handleRecordButton"/>
 
         <!-- Download Button: Save the transcript to a file -->
@@ -31,6 +34,7 @@
 
         <!-- Feedback Page: Go to feedback page -->
         <Button fx:id="FeedbackPageButton" text="Get feedback" onAction="#onFeedbackButtonClick"/>
+
     </HBox>
 
 </VBox>
