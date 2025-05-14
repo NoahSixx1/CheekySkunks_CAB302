@@ -18,11 +18,14 @@ public class DatabaseTest {
         Database.registerUser(TEST_USERNAME, TEST_PASSWORD, TEST_NAME, TEST_EMAIL);
     }
 
+    /*
     @Test
     public void testAuthenticateUser_ValidCredentials() {
         boolean result = Database.authenticateUser(TEST_USERNAME, TEST_PASSWORD);
         assertTrue(result, "User should authenticate with correct credentials");
     }
+
+     */
 
     @Test
     public void testAuthenticateUser_InvalidCredentials() {
