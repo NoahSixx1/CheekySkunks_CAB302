@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox prefHeight="400.0" prefWidth="600.0" spacing="10" style="-fx-background-color: #5F3985;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.assignment1.ProjectsPage">
+    <padding>
+        <Insets bottom="20" left="20" right="20" top="20" />
+    </padding>
+    <Label>Your Projects</Label>
+    <ListView fx:id="projectsListView" />
+    <HBox alignment="BOTTOM_LEFT" spacing="10">
+        <Button fx:id="exitButton" maxWidth="40" onAction="#goToLoginPage" text="Exit" />
+        <Button fx:id="newButton" maxWidth="40" onAction="#goToNextPage" text="New" />
+        <Button fx:id="selectButton" maxWidth="80" onAction="#goToNextPage" text="Select" />
+        <Button fx:id="leaderboardButton" onAction="#onLeaderboardClick" text="Leaderboard" />
+    </HBox>
+</VBox>
