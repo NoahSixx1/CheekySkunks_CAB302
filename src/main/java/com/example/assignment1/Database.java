@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Database {
-    private static final String DB_URL = "jdbc:sqlite:"; //skunks.db
+    private static final String DB_URL = "jdbc:sqlite:skunks.db"; //skunks.db
 
     static {
         try (Connection conn = DriverManager.getConnection(DB_URL);
