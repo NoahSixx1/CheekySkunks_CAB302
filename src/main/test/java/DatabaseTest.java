@@ -32,7 +32,7 @@ public class DatabaseTest {
 
     @Test
     public void testGetUserId_ValidUsername() {
-        String userId = Database.getUserId(TEST_USERNAME);
+        String userId = String.valueOf(Database.getUserId(TEST_USERNAME));
         assertNotNull(userId, "User ID should be returned for valid username");
     }
 
@@ -51,7 +51,7 @@ public class DatabaseTest {
 
     @Test
     public void testFillProjectsList_Empty() {
-        String userId = Database.getUserId(TEST_USERNAME);
+        String userId = String.valueOf(Database.getUserId(TEST_USERNAME));
         assertNotNull(userId, "User ID should not be null");
 
         List<String> projects = Database.fillProjectsList(userId);
