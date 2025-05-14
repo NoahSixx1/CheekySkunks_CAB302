@@ -55,34 +55,57 @@ public class LoginPage {
 
     @FXML
     protected void onAgreeCheckBoxClick() {
-        nextButton.setDisable(!agreeCheckBox.isSelected());
+        if (isRegisterMode) {
+            // only enforce “agree” when registering
+            nextButton.setDisable(!agreeCheckBox.isSelected());
+        }
     }
 
     @FXML
     protected void onNextButtonClick() {
-        String username = usernameField.getText();
+        String username = usernameField.getText().trim();
         String password = passwordField.getText();
 
         if (isRegisterMode) {
-            String name = nameField.getText();
-            String email = emailField.getText();
+            String passRegex = "^(?=.*[A-Z])(?=.*\\W).+$";
+
+            if (!password.matches(passRegex)) {
+                showAlert("Error", "Password must contain at least one uppercase letter and one symbol.");
+                return;
+            }
+            String name  = nameField.getText().trim();
+            String email = emailField.getText().trim();
+
+            String emailRegex = "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$";
+            if (!email.matches(emailRegex)) {
+                showAlert("Error", "Please enter a valid email address.");
+                return;
+            }
+
+            if (Database.emailExists(email)) {
+                showAlert("Error", "That email is already registered.");
+                return;
+            }
+
             if (Database.registerUser(username, password, name, email)) {
                 showAlert("Success", "Registration successful.");
-                toggleMode(); // Switch to login
+                toggleMode();  // back to login
             } else {
                 showAlert("Error", "Registration failed. Username may exist.");
             }
+
         } else {
             if (Database.authenticateUser(username, password)) {
-                String userId = String.valueOf(Database.getUserId(username));// <-- get the user's id
-                Session.setCurrentUserId(userId); // <-- save into session
-                showAlert("Success", "Login successful!");     // <-- fix the alert
+                String userId = String.valueOf(Database.getUserId(username));
+                Session.setCurrentUserId(userId);
+                showAlert("Success", "Login successful!");
                 goToNextPage();
             } else {
                 showAlert("Error", "Invalid username or password.");
             }
         }
     }
+
 
 
     @FXML
@@ -97,10 +120,25 @@ public class LoginPage {
     }
 
     private void toggleMode() {
+        // show/hide name & email fields (you already have these)
         nameField.setVisible(isRegisterMode);
         emailField.setVisible(isRegisterMode);
         nameLabel.setVisible(isRegisterMode);
         emailLabel.setVisible(isRegisterMode);
+
+        // **new**: show the terms & checkbox only when registering
+        termsAndConditions.setVisible(isRegisterMode);
+        agreeCheckBox.setVisible(isRegisterMode);
+
+        // reset the checkbox & next-button state
+        if (isRegisterMode) {
+            agreeCheckBox.setSelected(false);
+            nextButton.setDisable(true);     // must agree before registering
+        } else {
+            nextButton.setDisable(false);    // always enabled for login
+        }
+
+        // update the buttons & header text
         toggleButton.setText(isRegisterMode ? "Switch to Login" : "Switch to Register");
         nextButton.setText(isRegisterMode ? "Register" : "Login");
         modeLabel.setText(isRegisterMode ? "Register New Account" : "Login");
