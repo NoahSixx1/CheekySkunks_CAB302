@@ -16,6 +16,8 @@ import javax.sound.sampled.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.sql.*;
+import javafx.scene.control.TextInputDialog;
+import java.util.Optional;
 
 public class RealtimeSTT {
 
@@ -176,8 +178,24 @@ public class RealtimeSTT {
     }
 
     private void saveTranscriptToDatabase() {
+        // First, prompt the user for a name
+        TextInputDialog dialog = new TextInputDialog("My Rap");
+        dialog.setTitle("Name Your Rap");
+        dialog.setHeaderText("Give your rap a name");
+        dialog.setContentText("Enter a name:");
+
+        // Get the result and process it outside the lambda
+        String rapName;
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent() && !result.get().trim().isEmpty()) {
+            rapName = result.get().trim();
+        } else {
+            rapName = "Untitled Rap"; // Default name if user cancels or enters nothing
+        }
+
+        // Now save to database with the name
         String url = "jdbc:sqlite:skunks.db";
-        String insertSQL = "INSERT INTO projects (userid, transcript) VALUES (?, ?)";
+        String insertSQL = "INSERT INTO projects (userid, name, transcript) VALUES (?, ?, ?)";
 
         try (Connection conn = DriverManager.getConnection(url);
              PreparedStatement pstmt = conn.prepareStatement(insertSQL, PreparedStatement.RETURN_GENERATED_KEYS)) {
@@ -185,7 +203,8 @@ public class RealtimeSTT {
             int userId = Integer.parseInt(Session.getCurrentUserId());
 
             pstmt.setInt(1, userId);
-            pstmt.setString(2, transcript);
+            pstmt.setString(2, rapName);  // Add the name here
+            pstmt.setString(3, transcript);
 
             pstmt.executeUpdate();
 

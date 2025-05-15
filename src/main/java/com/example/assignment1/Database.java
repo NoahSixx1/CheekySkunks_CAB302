@@ -164,21 +164,44 @@ public class Database {
         }
         return leaderboard;
     }
+    public static class ProjectInfo {
+        private final String id;
+        private final String name;
 
-    public static List<String> fillProjectsList(String userid) {
-        List<String> projects = new ArrayList<>();
+        public ProjectInfo(String id, String name) {
+            this.id = id;
+            this.name = name;
+        }
+
+        public String getId() { return id; }
+        public String getName() { return name; }
+
+        @Override
+        public String toString() {
+            return name; // This makes ListView display the name by default
+        }
+    }
+
+    public static List<ProjectInfo> fillProjectsList(String userid) {
+        List<ProjectInfo> projects = new ArrayList<>();
         String sql = """
-            SELECT projectid
-            FROM projects
-            WHERE userid = ?
-            """;
+        SELECT projectid, name
+        FROM projects
+        WHERE userid = ?
+        ORDER BY projectid DESC
+        """;
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, userid);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                String entry = rs.getString("projectid");
-                projects.add(entry);
+                String id = rs.getString("projectid");
+                String name = rs.getString("name");
+                // If name is null or empty, use a default name with the ID
+                if (name == null || name.isEmpty()) {
+                    name = "Rap #" + id;
+                }
+                projects.add(new ProjectInfo(id, name));
             }
         } catch (SQLException e) {
             e.printStackTrace();

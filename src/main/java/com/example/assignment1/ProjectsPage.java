@@ -15,57 +15,45 @@ import java.util.List;
 
 public class ProjectsPage {
     @FXML
-    private ListView<String> projectsListView;
+    private ListView<Database.ProjectInfo> projectsListView; // Change type here
     @FXML
     private Button newButton;
     @FXML
     private Button exitButton;
     @FXML
     private Button selectButton;
-
     @FXML
-    private Button leaderboardButton;  // Add the leaderboard button reference
+    private Button leaderboardButton;
 
     private void syncContacts() {
         projectsListView.getItems().clear();
-        List<String> projects = Database.fillProjectsList(Session.getCurrentUserId());
+        List<Database.ProjectInfo> projects = Database.fillProjectsList(Session.getCurrentUserId());
         boolean hasProject = !projects.isEmpty();
-        //System.out.println(projects);
         if (hasProject) {
             projectsListView.getItems().addAll(projects);
         }
     }
 
-    private ListCell<String> renderCell(ListView<String> contactListView) {
+    private ListCell<Database.ProjectInfo> renderCell(ListView<Database.ProjectInfo> contactListView) {
         return new ListCell<>() {
-            /**
-             * Handles the event when a contact is selected in the list view.
-             *
-             * @param mouseEvent The event to handle.
-             */
             private void onContactSelected(MouseEvent mouseEvent) {
-                ListCell<String> clickedCell = (ListCell<String>) mouseEvent.getSource();
+                ListCell<Database.ProjectInfo> clickedCell = (ListCell<Database.ProjectInfo>) mouseEvent.getSource();
                 // Get the selected contact from the list view
-                String selectedProject = clickedCell.getItem();
-                System.out.println("selectedid: " + selectedProject);
+                Database.ProjectInfo selectedProject = clickedCell.getItem();
                 if (selectedProject != null) {
-                    Session.setCurrentProjectId(selectedProject);
+                    System.out.println("selectedid: " + selectedProject.getId());
+                    Session.setCurrentProjectId(selectedProject.getId());
                 }
             }
-            /**
-             * Updates the item in the cell by setting the text to the contact's full name.
-             * @param project The project to update the cell with.
-             * @param empty Whether the cell is empty.
-             */
+
             @Override
-            protected void updateItem(String project, boolean empty) {
+            protected void updateItem(Database.ProjectInfo project, boolean empty) {
                 super.updateItem(project, empty);
-                // If the cell is empty, set the text to null, otherwise set it to the contact's full name
                 if (empty || project == null) {
                     setText(null);
-                    super.setOnMouseClicked(this::onContactSelected);
                 } else {
-                    setText(project);
+                    setText(project.getName());
+                    super.setOnMouseClicked(this::onContactSelected);
                 }
             }
         };
@@ -94,6 +82,7 @@ public class ProjectsPage {
             e.printStackTrace();
         }
     }
+
     @FXML
     private void onLeaderboardClick() {
         try {
@@ -104,7 +93,6 @@ public class ProjectsPage {
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
-            // Optionally show an alert if the scene can't be loaded
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("Unable to load the leaderboard page.");
             alert.show();
@@ -115,14 +103,13 @@ public class ProjectsPage {
     public void initialize() {
         projectsListView.setCellFactory(this::renderCell);
         syncContacts();
-        // Select the first contact and display its information
+
+        // Select the first project and display its information
         projectsListView.getSelectionModel().selectFirst();
-        String firstProject = projectsListView.getSelectionModel().getSelectedItem();
+        Database.ProjectInfo firstProject = projectsListView.getSelectionModel().getSelectedItem();
         if (firstProject != null) {
-            System.out.println("firstid: " + firstProject);
-            Session.setCurrentProjectId(firstProject);
+            System.out.println("firstid: " + firstProject.getId());
+            Session.setCurrentProjectId(firstProject.getId());
         }
-
     }
-
 }
