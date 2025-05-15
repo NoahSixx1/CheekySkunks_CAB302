@@ -6,12 +6,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Control;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.Button;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
 
 import java.io.IOException;
 import java.sql.*;
@@ -40,9 +42,19 @@ public class LeaderboardController {
         scoreColumn.setCellValueFactory(new PropertyValueFactory<>("score"));
         rapColumn.setCellValueFactory(new PropertyValueFactory<>("rap"));
 
+        // Add cell factories for wrapping text in rap column
+        rapColumn.setCellFactory(tc -> {
+            TableCell<LeaderboardEntry, String> cell = new TableCell<>();
+            Text text = new Text();
+            cell.setGraphic(text);
+            cell.setPrefHeight(Control.USE_COMPUTED_SIZE);
+            text.wrappingWidthProperty().bind(rapColumn.widthProperty());
+            text.textProperty().bind(cell.itemProperty());
+            return cell;
+        });
+
         leaderboardTable.setItems(getLeaderboardData());
     }
-
     @FXML
     private void goToMainPage() {
         try {

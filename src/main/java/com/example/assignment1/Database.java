@@ -33,6 +33,7 @@ public class Database {
             String createLeaderboardTable = """
                 CREATE TABLE IF NOT EXISTS leaderboard (
                     userid INTEGER PRIMARY KEY,
+                    transcript TEXT,
                     score INTEGER DEFAULT 0,
                     FOREIGN KEY (userid) REFERENCES users(userid)
                 );
