@@ -6,12 +6,11 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
 
-
 public class App extends Application {
     // Constants defining the window title and size
     public static final String TITLE = "Skunk's Rap";
-    public static final int WIDTH = 640;
-    public static final int HEIGHT = 360;
+    public static final int WIDTH = 1500;
+    public static final int HEIGHT = 1000;
 
     @Override
     public void start(Stage stage) throws IOException {

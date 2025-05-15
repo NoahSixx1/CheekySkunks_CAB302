@@ -4,42 +4,70 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="697.0" prefWidth="912.0" spacing="10" style="-fx-border-color: #5F3985; -fx-border-width: 10;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.assignment1.ProjectsPage">
+<VBox prefHeight="1000.0" prefWidth="1500.0" spacing="10" style="-fx-border-color: #5F3985; -fx-border-width: 10;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.assignment1.ProjectsPage">
     <padding>
         <Insets bottom="20" left="20" right="20" top="20" />
     </padding>
-   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="30.0">
+   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
       <children>
-         <Label text="Skunks Rap">
-            <font>
-               <Font size="40.0" />
-            </font>
-         </Label>
-         <Label text="Projects Page">
-            <font>
-               <Font size="30.0" />
-            </font>
-         </Label>
+         <VBox alignment="CENTER" prefHeight="239.0" prefWidth="1092.0" spacing="30.0">
+            <children>
+               <Label text="Skunks Rap">
+                  <font>
+                     <Font name="System Bold" size="70.0" />
+                  </font>
+               </Label>
+               <Label text="Projects Page">
+                  <font>
+                     <Font name="System Bold" size="100.0" />
+                  </font>
+               </Label>
+            </children>
+         </VBox>
+         <AnchorPane prefHeight="200.0" prefWidth="200.0">
+            <children>
+               <ImageView fitHeight="242.0" fitWidth="230.0" layoutX="41.0" layoutY="-7.0">
+                  <image>
+                     <Image url="@skunklogo.jpg" />
+                  </image>
+               </ImageView>
+            </children>
+         </AnchorPane>
       </children>
-   </VBox>
+   </HBox>
    <HBox alignment="CENTER_RIGHT" prefHeight="126.0" prefWidth="852.0">
       <children>
-           <Button fx:id="exitButton" onAction="#goToLoginPage" prefHeight="40.0" prefWidth="110.0" style="-fx-background-color: #5F3985;" text="Exit" textFill="WHITE" />
+           <Button fx:id="exitButton" onAction="#goToLoginPage" prefHeight="77.0" prefWidth="300.0" style="-fx-background-color: #5F3985;" text="Exit" textFill="WHITE">
+            <font>
+               <Font size="40.0" />
+            </font></Button>
       </children>
    </HBox>
     <Label text="Your Projects:">
       <font>
-         <Font size="20.0" />
+         <Font size="40.0" />
       </font>
    </Label>
-    <ListView fx:id="projectsListView" />
+    <ListView fx:id="projectsListView" prefHeight="481.0" prefWidth="1440.0" />
     <HBox alignment="CENTER" prefHeight="146.0" prefWidth="626.0" spacing="30.0" style="-fx-background-color: #5F3985;">
-        <Button fx:id="newButton" onAction="#goToNextPage" prefHeight="40.0" prefWidth="110.0" style="-fx-background-color: #FFFF;" text="New" />
-        <Button fx:id="selectButton" onAction="#goToNextPage" prefHeight="40.0" prefWidth="110.0" style="-fx-background-color: #FFFF;" text="Select" />
-        <Button fx:id="leaderboardButton" onAction="#onLeaderboardClick" prefHeight="40.0" prefWidth="110.0" style="-fx-background-color: #FFFF;" text="Leaderboard" />
+        <Button fx:id="newButton" onAction="#goToNextPage" prefHeight="77.0" prefWidth="300.0" style="-fx-background-color: #FFFF;" text="New">
+         <font>
+            <Font size="40.0" />
+         </font></Button>
+        <Button fx:id="selectButton" onAction="#goToNextPage" prefHeight="77.0" prefWidth="300.0" style="-fx-background-color: #FFFF;" text="Select">
+         <font>
+            <Font size="40.0" />
+         </font></Button>
+        <Button fx:id="leaderboardButton" onAction="#onLeaderboardClick" prefHeight="77.0" prefWidth="300.0" style="-fx-background-color: #FFFF;" text="Leaderboard">
+         <font>
+            <Font size="40.0" />
+         </font></Button>
     </HBox>
 </VBox>

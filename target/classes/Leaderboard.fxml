@@ -5,41 +5,63 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="582.0" prefWidth="651.0" spacing="10" style="-fx-border-color: #5F3985; -fx-border-width: 10;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.assignment1.LeaderboardController">
+<VBox prefHeight="1000.0" prefWidth="1500.0" spacing="10" style="-fx-border-color: #5F3985; -fx-border-width: 10;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.assignment1.LeaderboardController">
     <padding>
         <Insets bottom="20" left="20" right="20" top="20" />
     </padding>
-   <VBox alignment="CENTER" prefHeight="92.0" prefWidth="591.0" spacing="30.0">
+   <HBox alignment="CENTER" prefHeight="119.0" prefWidth="637.0">
       <children>
-         <Label text="Skunks Rap">
+         <VBox alignment="CENTER" prefHeight="239.0" prefWidth="1142.0" spacing="30.0">
+            <children>
+               <Label text="Skunks Rap">
+                  <font>
+                     <Font name="System Bold" size="70.0" />
+                  </font>
+               </Label>
+               <Label text="Leaderboard Page">
+                  <font>
+                     <Font name="System Bold" size="100.0" />
+                  </font>
+               </Label>
+            </children>
+         </VBox>
+         <AnchorPane prefHeight="143.0" prefWidth="110.0">
+            <children>
+               <ImageView fitHeight="232.0" fitWidth="270.0" layoutX="8.0" layoutY="4.0">
+                  <image>
+                     <Image url="@skunklogo.jpg" />
+                  </image>
+               </ImageView>
+            </children>
+         </AnchorPane>
+      </children>
+   </HBox>
+   <HBox alignment="CENTER_RIGHT" prefHeight="46.0" prefWidth="602.0">
+      <children>
+         <Button fx:id="leaderboardExitButton" mnemonicParsing="false" onAction="#goToMainPage" prefHeight="77.0" prefWidth="300.0" style="-fx-background-color: #5F3985;" text="Exit" textFill="WHITE">
             <font>
                <Font size="40.0" />
-            </font>
-         </Label>
-         <Label text="Leaderboard Page">
-            <font>
-               <Font size="30.0" />
-            </font>
-         </Label>
-      </children>
-   </VBox>
-   <HBox alignment="CENTER_RIGHT" prefHeight="46.0" prefWidth="591.0">
-      <children>
-         <Button fx:id="leaderboardExitButton" mnemonicParsing="false" onAction="#goToMainPage" prefHeight="40.0" prefWidth="110.0" style="-fx-background-color: #5F3985;" text="Exit" textFill="WHITE" />
+            </font></Button>
       </children>
    </HBox>
 
-    <Label text="Leaderboard:" />
+    <Label text="Leaderboard:">
+      <font>
+         <Font size="40.0" />
+      </font></Label>
 
-    <TableView fx:id="leaderboardTable" prefHeight="254.0" prefWidth="591.0">
+    <TableView fx:id="leaderboardTable" prefHeight="619.0" prefWidth="1440.0">
         <columns>
-            <TableColumn fx:id="userColumn" prefWidth="200" text="User" />
-            <TableColumn fx:id="scoreColumn" prefWidth="100.0" text="Score" />
-            <TableColumn fx:id="rapColumn" prefWidth="300.0" text="Transcript" />
+            <TableColumn fx:id="userColumn" prefWidth="308.0416431427002" text="User" />
+            <TableColumn fx:id="scoreColumn" prefWidth="179.70449829101562" text="Score" />
+            <TableColumn fx:id="rapColumn" prefWidth="953.7955322265625" text="Transcript" />
         </columns>
     </TableView>
 

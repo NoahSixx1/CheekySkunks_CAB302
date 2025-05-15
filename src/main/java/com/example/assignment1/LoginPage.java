@@ -4,8 +4,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import javax.swing.text.html.ImageView;
+import java.awt.*;
 import java.io.IOException;
 
 public class LoginPage {
@@ -21,10 +27,13 @@ public class LoginPage {
     @FXML private Label nameLabel;
     @FXML private Label emailLabel;
     @FXML private Label TermsLabel;
+    @FXML private ImageView logoImage;
 
     private String currentUserid = "";
 
     private boolean isRegisterMode = false;
+
+
 
     @FXML
     public void initialize() {
