@@ -18,7 +18,6 @@ import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import javafx.scene.control.TextInputDialog;
 import java.util.Optional;
-
 public class RealtimeSTT {
 
     @FXML private Text statusText;
