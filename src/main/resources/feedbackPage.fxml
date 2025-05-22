@@ -27,6 +27,11 @@
            <Button fx:id="exitButton" onAction="#onExit" prefHeight="40.0" prefWidth="140.0" style="-fx-background-color: #5F3985;" text="Exit" textFill="WHITE" />
       </children>
    </HBox>
+    <Label fx:id="scoreLabel"
+           text="Score: –">
+        <font>
+        <Font size="40.0" />
+    </font></Label>
     <Label text="Your Feedback:">
       <font>
          <Font size="20.0" />

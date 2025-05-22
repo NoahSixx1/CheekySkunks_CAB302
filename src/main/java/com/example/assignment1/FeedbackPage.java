@@ -3,9 +3,12 @@ package com.example.assignment1;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -13,6 +16,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class FeedbackPage {
 
@@ -27,6 +32,8 @@ public class FeedbackPage {
 
     @FXML
     private Button editTextButton;
+
+    @FXML private Label scoreLabel;
 
     @FXML
     public void initialize() {
@@ -59,23 +66,32 @@ public class FeedbackPage {
 
     @FXML
     public void handleGetFeedbackButton() {
-        System.out.println("Button is pressed");
-        OllamaAPITest test = new OllamaAPITest();
-        String prompt = "analyse these rap lyrics and give me a score:" + feedbackTextArea.getText();
-        OllamaSyncResponse generateResponse = new OllamaSyncResponse(prompt);
-        try {
-            String result = generateResponse.ollamaResponse();
+        String lyrics = feedbackTextArea.getText();
+        String prompt = "Analyse these rap lyrics and respond exactly like this:\n" +
+                "score:<number between 0 and 100>\n" +
+                "feedback:<your feedback text>\n\nLyrics:\n" +
+                lyrics;
+        OllamaSyncResponse resp = new OllamaSyncResponse(prompt);
 
-            System.out.println("Our feedback: " + result);
-            String feedback = "Our feedback: " + result;
-            feedbackTextArea.appendText("\n\n" + feedback);
+        try {
+            String raw = resp.ollamaResponse().trim();
+            System.out.println("Raw response:\n" + raw);
+
+            // Split into lines
+            String[] lines = raw.split("\\r?\\n");
+            for (String line : lines) {
+                if (line.toLowerCase().startsWith("score:")) {
+                    String num = line.substring(line.indexOf(":") + 1).trim();
+                    scoreLabel.setText("Score: " + num);
+                }
+                else if (line.toLowerCase().startsWith("feedback:")) {
+                    String fb = line.substring(line.indexOf(":") + 1).trim();
+                    feedbackTextArea.appendText("\n\nFeedback: " + fb);
+                }
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        // Dummy feedback: count words
-        //String currentText = feedbackTextArea.getText();
-        //String feedback = "Feedback: Your text has " + currentText.split("\\s+").length + " words.";
-        //feedbackTextArea.appendText("\n\n" + feedback);
     }
 
     @FXML

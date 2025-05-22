@@ -50,7 +50,7 @@
         <Button fx:id="downloadButton" text="Download Transcript" onAction="#handleDownloadButton"/>
 
         <!-- Feedback Page: Go to feedback page -->
-        <Button fx:id="FeedbackPageButton" text="Get feedback" onAction="#onFeedbackButtonClick"/>
+        <Button fx:id="FeedbackPageButton" text="Confirm" onAction="#onFeedbackButtonClick"/>
     </HBox>
 
 </VBox>
