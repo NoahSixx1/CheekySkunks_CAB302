@@ -50,6 +50,7 @@ public class LeaderboardController {
             Scene leaderboardScene = new Scene(loader.load(), App.WIDTH, App.HEIGHT);
             Stage stage = (Stage) leaderboardExitButton.getScene().getWindow();
             stage.setScene(leaderboardScene);
+            stage.setMaximized(true);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -65,11 +66,11 @@ public class LeaderboardController {
 
         String url = "jdbc:sqlite:skunks.db";
         String sql = """
-            SELECT u.username, l.transcript, l.score
+            SELECT u.username, l.score, l.title
             FROM leaderboard l
             JOIN users u ON l.userid = u.id
-            ORDER BY l.score DESC
-            LIMIT 10
+            ORDER BY l.score DESC;
+
         """;
 
         try (Connection conn = DriverManager.getConnection(url);
@@ -78,7 +79,7 @@ public class LeaderboardController {
 
             while (rs.next()) {
                 String user = rs.getString("username");
-                String rap = rs.getString("transcript");
+                String rap = rs.getString("title");
                 int score = rs.getInt("score");
 
                 data.add(new LeaderboardEntry(user, rap, score));

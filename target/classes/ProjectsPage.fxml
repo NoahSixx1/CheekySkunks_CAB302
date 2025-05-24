@@ -38,8 +38,8 @@
    </Label>
     <ListView fx:id="projectsListView" />
     <HBox alignment="CENTER" prefHeight="146.0" prefWidth="626.0" spacing="30.0" style="-fx-background-color: #5F3985;">
-        <Button fx:id="newButton" onAction="#goToNextPage" prefHeight="40.0" prefWidth="110.0" style="-fx-background-color: #FFFF;" text="New" />
-        <Button fx:id="selectButton" onAction="#goToNextPage" prefHeight="40.0" prefWidth="110.0" style="-fx-background-color: #FFFF;" text="Select" />
+        <Button fx:id="newButton" onAction="#handleNewProjectClick" prefHeight="40.0" prefWidth="110.0" style="-fx-background-color: #FFFF;" text="New" />
+        <Button fx:id="selectButton" onAction="#handleSelectProjectClick" prefHeight="40.0" prefWidth="110.0" style="-fx-background-color: #FFFF;" text="Select" />
         <Button fx:id="leaderboardButton" onAction="#onLeaderboardClick" prefHeight="40.0" prefWidth="110.0" style="-fx-background-color: #FFFF;" text="Leaderboard" />
     </HBox>
 </VBox>

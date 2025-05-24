@@ -47,7 +47,9 @@ public class RealtimeSTT {
     @FXML
     public void initialize() throws IOException {
         recognizer = new Recognizer(model, SAMPLE_RATE);
+        loadTranscriptFromDatabase(); // 🔥 NEW LINE
     }
+
 
     @FXML
     private void handleChooseBeat() {
@@ -149,11 +151,13 @@ public class RealtimeSTT {
         isRecording = false;
         try {
             recordingThread.join();
+            appendTranscriptToDatabase();
+
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        saveTranscriptToDatabase();
+
     }
 
     private String extractTextFromJson(String json) {
@@ -175,45 +179,8 @@ public class RealtimeSTT {
         }
     }
 
-    private void saveTranscriptToDatabase() {
-        String url = "jdbc:sqlite:skunks.db";
-        String insertSQL = "INSERT INTO projects (userid, transcript) VALUES (?, ?)";
 
-        try (Connection conn = DriverManager.getConnection(url);
-             PreparedStatement pstmt = conn.prepareStatement(insertSQL, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
-            int userId = Integer.parseInt(Session.getCurrentUserId());
-
-            pstmt.setInt(1, userId);
-            pstmt.setString(2, transcript);
-
-            pstmt.executeUpdate();
-
-            ResultSet rs = pstmt.getGeneratedKeys();
-            if (rs.next()) {
-                int newProjectId = rs.getInt(1);
-                Session.setCurrentProjectId(String.valueOf(newProjectId));
-                System.out.println("Transcript saved to database. Project ID: " + newProjectId);
-            }
-
-        } catch (SQLException e) {
-            System.out.println("Database error: " + e.getMessage());
-        }
-    }
-
-    @FXML
-    private void handleDownloadButton() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Save Transcript");
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Files", "*.txt"));
-        fileChooser.setInitialFileName("transcript.txt");
-        File file = fileChooser.showSaveDialog(null);
-
-        if (file != null) {
-            saveTranscriptToFile(file.getAbsolutePath());
-            statusText.setText("Transcript saved to: " + file.getAbsolutePath());
-        }
-    }
 
     @FXML
     public void onFeedbackButtonClick() {
@@ -243,38 +210,7 @@ public class RealtimeSTT {
         }
     }
 
-    @FXML
-    private void onLeaderboardClick() {
-        try {
-            FXMLLoader loader = new FXMLLoader(App.class.getResource("/leaderboard.fxml"));
-            Scene scene = new Scene(loader.load(), App.WIDTH, App.HEIGHT);
-            Stage stage = (Stage) leaderboardButton.getScene().getWindow();
-            stage.setScene(scene);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
-    private void saveToLeaderboard(int userId, String rap, int score) {
-        String url = "jdbc:sqlite:skunks.db";
-        String sql = "INSERT INTO leaderboard (userid, transcript, score) VALUES (?, ?, ?)";
-
-        try (Connection conn = DriverManager.getConnection(url);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, userId);
-            pstmt.setString(2, rap);
-            pstmt.setInt(3, score);
-            pstmt.executeUpdate();
-            System.out.println("Rap added to leaderboard with score: " + score);
-        } catch (SQLException e) {
-            System.out.println("Leaderboard error: " + e.getMessage());
-        }
-    }
-
-    private int calculateScore(String transcript) {
-        String[] words = transcript.trim().split("\\s+");
-        return words.length;
-    }
 
     // ✅ Inner BeatPlayer class with looping + volume
     static class BeatPlayer {
@@ -309,4 +245,58 @@ public class RealtimeSTT {
             }
         }
     }
+    private void loadTranscriptFromDatabase() {
+        String url = "jdbc:sqlite:skunks.db";
+        String sql = "SELECT transcript FROM projects WHERE projectid = ?";
+
+        try (Connection conn = DriverManager.getConnection(url);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            int projectId = Integer.parseInt(Session.getCurrentProjectId());
+            pstmt.setInt(1, projectId);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                transcript = rs.getString("transcript"); // ✅ preload it into memory
+                transcriptArea.setText(transcript);      // ✅ display in UI
+            }
+        } catch (SQLException e) {
+            System.out.println("DB Load Error: " + e.getMessage());
+        }
+    }
+    private void appendTranscriptToDatabase() {
+        String url = "jdbc:sqlite:skunks.db";
+        String selectSQL = "SELECT transcript FROM projects WHERE projectid = ?";
+        String updateSQL = "UPDATE projects SET transcript = ? WHERE projectid = ?";
+
+        int projectId = Integer.parseInt(Session.getCurrentProjectId());
+
+        try (Connection conn = DriverManager.getConnection(url)) {
+            String existing = "";
+            try (PreparedStatement selectStmt = conn.prepareStatement(selectSQL)) {
+                selectStmt.setInt(1, projectId);
+                ResultSet rs = selectStmt.executeQuery();
+                if (rs.next()) {
+                    existing = rs.getString("transcript");
+                }
+            }
+
+            String combined = (existing == null ? "" : existing + "\n") + transcript;
+
+            try (PreparedStatement updateStmt = conn.prepareStatement(updateSQL)) {
+                updateStmt.setString(1, combined);
+                updateStmt.setInt(2, projectId);
+                updateStmt.executeUpdate();
+            }
+
+            // 🔁 Update the UI field and the file (optional)
+            transcriptArea.setText(combined);
+            saveTranscriptToFile("transcript_project_" + projectId + ".txt");
+
+        } catch (SQLException e) {
+            System.out.println("DB Append Error: " + e.getMessage());
+        }
+    }
+
+
 }

@@ -151,6 +151,7 @@ public class LoginPage {
             FXMLLoader loader = new FXMLLoader(App.class.getResource("/ProjectsPage.fxml"));
             Scene scene = new Scene(loader.load(), App.WIDTH, App.HEIGHT);
             Stage stage = (Stage) nextButton.getScene().getWindow();
+            stage.setMaximized(true);
             stage.setScene(scene);
         } catch (IOException e) {
             e.printStackTrace();

@@ -38,8 +38,9 @@
     <TableView fx:id="leaderboardTable" prefHeight="254.0" prefWidth="591.0">
         <columns>
             <TableColumn fx:id="userColumn" prefWidth="200" text="User" />
+            <TableColumn fx:id="rapColumn" prefWidth="300.0" text="Title" />
             <TableColumn fx:id="scoreColumn" prefWidth="100.0" text="Score" />
-            <TableColumn fx:id="rapColumn" prefWidth="300.0" text="Transcript" />
+
         </columns>
     </TableView>
 

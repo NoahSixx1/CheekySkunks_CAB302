@@ -3,19 +3,21 @@ package com.example.assignment1;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
 public class ProjectsPage {
     @FXML
-    private ListView<String> projectsListView;
+    private ListView<ProjectEntry> projectsListView;
+
     @FXML
     private Button newButton;
     @FXML
@@ -28,60 +30,14 @@ public class ProjectsPage {
 
     private void syncContacts() {
         projectsListView.getItems().clear();
-        List<String> projects = Database.fillProjectsList(Session.getCurrentUserId());
-        boolean hasProject = !projects.isEmpty();
-        //System.out.println(projects);
-        if (hasProject) {
+        List<ProjectEntry> projects = Database.fillProjectsList(Session.getCurrentUserId());
+        if (!projects.isEmpty()) {
             projectsListView.getItems().addAll(projects);
         }
     }
 
-    private ListCell<String> renderCell(ListView<String> contactListView) {
-        return new ListCell<>() {
-            /**
-             * Handles the event when a contact is selected in the list view.
-             *
-             * @param mouseEvent The event to handle.
-             */
-            private void onContactSelected(MouseEvent mouseEvent) {
-                ListCell<String> clickedCell = (ListCell<String>) mouseEvent.getSource();
-                // Get the selected contact from the list view
-                String selectedProject = clickedCell.getItem();
-                System.out.println("selectedid: " + selectedProject);
-                if (selectedProject != null) {
-                    Session.setCurrentProjectId(selectedProject);
-                }
-            }
-            /**
-             * Updates the item in the cell by setting the text to the contact's full name.
-             * @param project The project to update the cell with.
-             * @param empty Whether the cell is empty.
-             */
-            @Override
-            protected void updateItem(String project, boolean empty) {
-                super.updateItem(project, empty);
-                // If the cell is empty, set the text to null, otherwise set it to the contact's full name
-                if (empty || project == null) {
-                    setText(null);
-                    super.setOnMouseClicked(this::onContactSelected);
-                } else {
-                    setText(project);
-                }
-            }
-        };
-    }
 
-    @FXML
-    private void goToNextPage() {
-        try {
-            FXMLLoader loader = new FXMLLoader(App.class.getResource("/recordPage.fxml"));
-            Scene scene = new Scene(loader.load(), App.WIDTH, App.HEIGHT);
-            Stage stage = (Stage) selectButton.getScene().getWindow();
-            stage.setScene(scene);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+
 
     @FXML
     private void goToLoginPage() {
@@ -90,6 +46,7 @@ public class ProjectsPage {
             Scene scene = new Scene(loader.load(), App.WIDTH, App.HEIGHT);
             Stage stage = (Stage) exitButton.getScene().getWindow();
             stage.setScene(scene);
+            stage.setMaximized(true);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -101,6 +58,7 @@ public class ProjectsPage {
             Scene leaderboardScene = new Scene(loader.load(), App.WIDTH, App.HEIGHT);
             Stage stage = (Stage) leaderboardButton.getScene().getWindow();
             stage.setScene(leaderboardScene);
+            stage.setMaximized(true);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -113,16 +71,91 @@ public class ProjectsPage {
 
     @FXML
     public void initialize() {
-        projectsListView.setCellFactory(this::renderCell);
         syncContacts();
         // Select the first contact and display its information
         projectsListView.getSelectionModel().selectFirst();
-        String firstProject = projectsListView.getSelectionModel().getSelectedItem();
+        String firstProject = String.valueOf(projectsListView.getSelectionModel().getSelectedItem());
         if (firstProject != null) {
             System.out.println("firstid: " + firstProject);
             Session.setCurrentProjectId(firstProject);
         }
 
     }
+
+
+    @FXML
+    private void handleSelectProjectClick() {
+        ProjectEntry selected = projectsListView.getSelectionModel().getSelectedItem();
+
+        if (selected == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("No Project Selected");
+            alert.setContentText("Please select a project from the list.");
+            alert.show();
+            return;
+        }
+
+        System.out.println("Selected Project: " + selected.getTitle() + " (ID: " + selected.getProjectId() + ")");
+        Session.setCurrentProjectId(String.valueOf(selected.getProjectId()));
+
+        try {
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("/recordPage.fxml"));
+            Scene scene = new Scene(loader.load(), App.WIDTH, App.HEIGHT);
+            Stage stage = (Stage) selectButton.getScene().getWindow();
+            stage.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleNewProjectClick() {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("New Project");
+        dialog.setHeaderText("Enter a title for your new project:");
+        dialog.setContentText("Title:");
+
+        dialog.showAndWait().ifPresent(title -> {
+            if (title.trim().isEmpty()) {
+                title = "Untitled Project";
+            }
+
+            try {
+                int userId = Integer.parseInt(Session.getCurrentUserId());
+                String dbUrl = "jdbc:sqlite:skunks.db";
+                String insertSQL = "INSERT INTO projects (userid, transcript, title, score) VALUES (?, '', ?, 0)";
+
+                int newProjectId = -1;
+                try (Connection conn = DriverManager.getConnection(dbUrl);
+                     PreparedStatement pstmt = conn.prepareStatement(insertSQL, PreparedStatement.RETURN_GENERATED_KEYS)) {
+
+                    pstmt.setInt(1, userId);
+                    pstmt.setString(2, title);
+                    pstmt.executeUpdate();
+
+                    try (var rs = pstmt.getGeneratedKeys()) {
+                        if (rs.next()) {
+                            newProjectId = rs.getInt(1);
+                            System.out.println("New project created with ID: " + newProjectId);
+                            Session.setCurrentProjectId(String.valueOf(newProjectId));
+                        }
+                    }
+                }
+
+                // Navigate to recording
+                FXMLLoader loader = new FXMLLoader(App.class.getResource("/recordPage.fxml"));
+                Scene scene = new Scene(loader.load(), App.WIDTH, App.HEIGHT);
+                Stage stage = (Stage) newButton.getScene().getWindow();
+                stage.setScene(scene);
+                stage.setMaximized(true);
+
+            } catch (IOException | SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+
+
 
 }

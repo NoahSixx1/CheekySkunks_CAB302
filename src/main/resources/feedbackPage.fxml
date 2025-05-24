@@ -46,6 +46,11 @@
 
         <!-- Button to allow editing the text -->
         <Button fx:id="editTextButton" onAction="#handleEditTextButton" prefHeight="40.0" prefWidth="140.0" style="-fx-background-color: #FFFF;" text="Edit Text" />
+
+        <Button fx:id="saveFeedbackButton" text="Save Feedback and Score" onAction="#handleSaveFeedback" />
+
+        <Button fx:id="downloadTranscriptButton" onAction="#handleDownloadTranscript" text="Download Transcript"/>
+
     </HBox>
 
 </VBox>

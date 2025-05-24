@@ -5,14 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Database {
-    private static final String DB_URL = "jdbc:sqlite:skunks.db"; //skunks.db
+    private static final String DB_URL = "jdbc:sqlite:skunks.db";
 
     static {
         try (Connection conn = DriverManager.getConnection(DB_URL);
              Statement stmt = conn.createStatement()) {
+
             String createUsersTable = """
                 CREATE TABLE IF NOT EXISTS users (
-                    userid INTEGER PRIMARY KEY AUTOINCREMENT,
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
                     username TEXT UNIQUE NOT NULL,
                     password TEXT NOT NULL,
                     name TEXT,
@@ -25,21 +26,26 @@ public class Database {
                 CREATE TABLE IF NOT EXISTS projects (
                     userid INTEGER NOT NULL,
                     projectid INTEGER PRIMARY KEY AUTOINCREMENT,
-                    transcript TEXT
+                    title TEXT DEFAULT 'Untitled Project',
+                    transcript TEXT,
+                    score INTEGER DEFAULT 0
                 );
             """;
             stmt.execute(createProjectsTable);
 
             String createLeaderboardTable = """
                 CREATE TABLE IF NOT EXISTS leaderboard (
-                    userid INTEGER PRIMARY KEY,
+                    userid INTEGER,
+                    projectid INTEGER,
                     score INTEGER DEFAULT 0,
-                    FOREIGN KEY (userid) REFERENCES users(userid)
+                    title TEXT,
+                    PRIMARY KEY (userid, projectid),
+                    FOREIGN KEY (userid) REFERENCES users(id)
                 );
             """;
             stmt.execute(createLeaderboardTable);
 
-            System.out.println("Database and tables successfully created.");
+            System.out.println("Database and tables successfully initialized.");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -50,12 +56,11 @@ public class Database {
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setString(1, username);
-            pstmt.setString(2, password);  // In production, hash the password!
+            pstmt.setString(2, password); // ⚠️ hash in production
             pstmt.setString(3, name);
             pstmt.setString(4, email);
             pstmt.executeUpdate();
 
-            // Get the generated user ID
             ResultSet generatedKeys = pstmt.getGeneratedKeys();
             if (generatedKeys.next()) {
                 int userId = generatedKeys.getInt(1);
@@ -66,24 +71,22 @@ public class Database {
             return false;
         }
     }
+
     public static boolean emailExists(String email) {
-        // Pseudo‐code: adapt to your actual JDBC or ORM setup
         String sql = "SELECT COUNT(*) FROM users WHERE email = ?";
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return rs.getInt(1) > 0;
-            }
+            return rs.next() && rs.getInt(1) > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;  // or true to be safe on error
+        return false;
     }
 
     private static void initializeLeaderboardEntry(int userId) {
-        String sql = "INSERT INTO leaderboard (userid, score) VALUES (?, 0)";
+        String sql = "INSERT OR IGNORE INTO leaderboard (userid, score) VALUES (?, 0)";
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, userId);
@@ -98,7 +101,7 @@ public class Database {
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, username);
-            pstmt.setString(2, password);  // Should match hash
+            pstmt.setString(2, password);
             ResultSet rs = pstmt.executeQuery();
             return rs.next();
         } catch (SQLException e) {
@@ -119,23 +122,20 @@ public class Database {
         } catch (SQLException e) {
             System.out.println("Database error: " + e.getMessage());
         }
-        return null; // return null if no user found
+        return null;
     }
-
-    // LEADERBOARD FUNCTIONS:
 
     public static boolean updateScore(String username, int newScore) {
         String sql = """
             UPDATE leaderboard
             SET score = ?
-            WHERE userid = (SELECT userid FROM users WHERE username = ?)
+            WHERE userid = (SELECT id FROM users WHERE username = ?)
             """;
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, newScore);
             pstmt.setString(2, username);
-            int affected = pstmt.executeUpdate();
-            return affected > 0;
+            return pstmt.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -145,44 +145,82 @@ public class Database {
     public static List<LeaderboardEntry> getLeaderboard() {
         List<LeaderboardEntry> leaderboard = new ArrayList<>();
         String sql = """
-            SELECT u.username, l.score
+            SELECT u.username, l.title, l.score
             FROM leaderboard l
-            JOIN users u ON l.userid = u.userid
+            JOIN users u ON l.userid = u.id
             ORDER BY l.score DESC
-            """;
+        """;
+
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
 
             while (rs.next()) {
                 String user = rs.getString("username");
+                String title = rs.getString("title");
                 int score = rs.getInt("score");
-                leaderboard.add(new LeaderboardEntry(user, "", score)); // Empty rap for now, modify if needed
+                leaderboard.add(new LeaderboardEntry(user, title, score));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return leaderboard;
     }
 
-    public static List<String> fillProjectsList(String userid) {
-        List<String> projects = new ArrayList<>();
-        String sql = """
-            SELECT projectid
-            FROM projects
-            WHERE userid = ?
-            """;
+    public static List<ProjectEntry> fillProjectsList(String userId) {
+        List<ProjectEntry> projects = new ArrayList<>();
+        String sql = "SELECT projectid, title FROM projects WHERE userid = ?";
+
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, userid);
+
+            pstmt.setString(1, userId);
             ResultSet rs = pstmt.executeQuery();
+
             while (rs.next()) {
-                String entry = rs.getString("projectid");
-                projects.add(entry);
+                int id = rs.getInt("projectid");
+                String title = rs.getString("title");
+                projects.add(new ProjectEntry(id, title));
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return projects;
+    }
+
+    public static boolean updateProjectTranscriptAndScore(int projectId, String transcript, int score, String title) {
+        String sql = "UPDATE projects SET transcript = ?, score = ?, title = ? WHERE projectid = ?";
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, transcript);
+            pstmt.setInt(2, score);
+            pstmt.setString(3, title);
+            pstmt.setInt(4, projectId);
+            return pstmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean updateLeaderboardEntry(int userId, int projectId, int score, String title) {
+        String sql = """
+            INSERT OR REPLACE INTO leaderboard (userid, projectid, score, title)
+            VALUES (?, ?, ?, ?)
+        """;
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, userId);
+            pstmt.setInt(2, projectId);
+            pstmt.setInt(3, score);
+            pstmt.setString(4, title);
+            pstmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

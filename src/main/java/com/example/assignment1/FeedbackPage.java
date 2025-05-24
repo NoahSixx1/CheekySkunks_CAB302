@@ -6,10 +6,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Button;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -18,6 +22,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+
 
 public class FeedbackPage {
 
@@ -34,6 +41,11 @@ public class FeedbackPage {
     private Button editTextButton;
 
     @FXML private Label scoreLabel;
+
+    @FXML private Button saveFeedbackButton;
+
+
+
 
     @FXML
     public void initialize() {
@@ -111,8 +123,104 @@ public class FeedbackPage {
             Scene scene = new Scene(loader.load(), App.WIDTH, App.HEIGHT);
             Stage stage = (Stage) exitButton.getScene().getWindow();
             stage.setScene(scene);
+            stage.setMaximized(true);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+    @FXML
+    public void handleSaveFeedback() {
+        String fullText = feedbackTextArea.getText();
+        String scoreText = scoreLabel.getText().replace("Score:", "").trim();
+        int score = 0;
+
+        try {
+            score = Integer.parseInt(scoreText);
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid score format.");
+            return;
+        }
+
+        int userId = Integer.parseInt(Session.getCurrentUserId());
+        int projectId = Integer.parseInt(Session.getCurrentProjectId());
+
+        // Save to file
+        String filename = "transcript_project_" + projectId + ".txt";
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
+            writer.write(fullText);
+            System.out.println("Updated transcript.txt with feedback.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String dbUrl = "jdbc:sqlite:skunks.db";
+        String updateProject = "UPDATE projects SET transcript = ?, score = ? WHERE projectid = ?";
+        String projectTitle = getProjectTitleById(projectId); // 🔍 Add this helper below
+        String updateLeaderboard = """
+        INSERT OR REPLACE INTO leaderboard (userid, projectid, score, title) VALUES (?, ?, ?, ?)
+        """;
+
+        try (Connection conn = DriverManager.getConnection(dbUrl)) {
+            try (PreparedStatement pstmt = conn.prepareStatement(updateProject)) {
+                pstmt.setString(1, fullText);
+                pstmt.setInt(2, score);
+                pstmt.setInt(3, projectId);
+                pstmt.executeUpdate();
+            }
+
+            try (PreparedStatement pstmt2 = conn.prepareStatement(updateLeaderboard)) {
+                pstmt2.setInt(1, userId);
+                pstmt2.setInt(2, projectId);
+                pstmt2.setInt(3, score);
+                pstmt2.setString(4, projectTitle); // ✅ Now you're actually passing it in
+                pstmt2.executeUpdate();
+            }
+
+            // 🎉 Success notification
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Success");
+            alert.setHeaderText(null);
+            alert.setContentText("Feedback and score have been saved successfully!");
+            alert.showAndWait();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    private String getProjectTitleById(int projectId) {
+        String title = "Untitled";
+        String sql = "SELECT title FROM projects WHERE projectid = ?";
+        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:skunks.db");
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, projectId);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                title = rs.getString("title");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return title;
+    }
+    @FXML
+    private void handleDownloadTranscript() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save Transcript and Feedback");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Files", "*.txt"));
+        fileChooser.setInitialFileName("feedback_transcript.txt");
+
+        File file = fileChooser.showSaveDialog(null);
+        if (file != null) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+                writer.write(feedbackTextArea.getText());
+                System.out.println("Transcript + feedback saved to: " + file.getAbsolutePath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+
+
 }
