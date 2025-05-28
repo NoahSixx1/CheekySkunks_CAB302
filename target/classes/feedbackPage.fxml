@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="611.0" prefWidth="769.0" spacing="10" style="-fx-padding: 20; -fx-border-color: #5F3985; -fx-border-width: 10;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.example.assignment1.FeedbackPage">
+<VBox prefHeight="948.0" prefWidth="1107.0" spacing="10" style="-fx-padding: 20; -fx-border-color: #5F3985; -fx-border-width: 10;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.assignment1.FeedbackPage">
    <VBox alignment="CENTER" prefHeight="105.0" prefWidth="729.0" spacing="30.0">
       <children>
          <Label text="Skunks Rap">
@@ -27,8 +27,7 @@
            <Button fx:id="exitButton" onAction="#onExit" prefHeight="40.0" prefWidth="140.0" style="-fx-background-color: #5F3985;" text="Exit" textFill="WHITE" />
       </children>
    </HBox>
-    <Label fx:id="scoreLabel"
-           text="Score: –">
+    <Label fx:id="scoreLabel" text="Score: –">
         <font>
         <Font size="40.0" />
     </font></Label>
@@ -39,17 +38,17 @@
     <!-- TextArea to display the transcript text -->
     <TextArea fx:id="feedbackTextArea" editable="false" prefHeight="281.0" prefWidth="729.0" wrapText="true" />
 
-    <HBox alignment="CENTER" prefHeight="47.0" prefWidth="628.0" spacing="100.0" style="-fx-background-color: #5F3985;">
+    <HBox alignment="CENTER" prefHeight="52.0" prefWidth="1047.0" spacing="100.0" style="-fx-background-color: #5F3985;">
 
         <!-- Button to get feedback -->
-        <Button fx:id="getFeedbackButton" onAction="#handleGetFeedbackButton" prefHeight="40.0" prefWidth="140.0" style="-fx-background-color: #FFFF;" text="Get Feedback" />
+        <Button fx:id="getFeedbackButton" onAction="#handleGetFeedbackButton" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #FFFF;" text="Get Feedback" />
 
         <!-- Button to allow editing the text -->
-        <Button fx:id="editTextButton" onAction="#handleEditTextButton" prefHeight="40.0" prefWidth="140.0" style="-fx-background-color: #FFFF;" text="Edit Text" />
+        <Button fx:id="editTextButton" onAction="#handleEditTextButton" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #FFFF;" text="Edit Text" />
 
-        <Button fx:id="saveFeedbackButton" text="Save Feedback and Score" onAction="#handleSaveFeedback" />
+        <Button fx:id="saveFeedbackButton" onAction="#handleSaveFeedback" prefHeight="40.0" prefWidth="170.0" style="-fx-background-color: #FFFF;" text="Save Feedback and Score" />
 
-        <Button fx:id="downloadTranscriptButton" onAction="#handleDownloadTranscript" text="Download Transcript"/>
+        <Button fx:id="downloadTranscriptButton" onAction="#handleDownloadTranscript" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #FFFF;" text="Download Transcript" />
 
     </HBox>
 
