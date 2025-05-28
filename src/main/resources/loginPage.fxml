@@ -7,11 +7,13 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_LEFT" minHeight="700.0" minWidth="600.0" prefHeight="908.0" prefWidth="930.0" spacing="10.0" style="-fx-border-color: #5F3985; -fx-border-width: 10;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.assignment1.LoginPage">
+<VBox alignment="TOP_LEFT" prefHeight="750.0" prefWidth="1000.0" spacing="10.0" style="-fx-border-color: #5F3985; -fx-border-width: 10;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.assignment1.LoginPage">
     <padding>
         <Insets bottom="20" left="20" right="20" top="20" />
     </padding>
@@ -35,57 +37,71 @@
          </Label>
       </children>
    </HBox>
-   <VBox alignment="CENTER" prefHeight="329.0" prefWidth="870.0">
+   <HBox alignment="CENTER" prefHeight="255.0" prefWidth="940.0">
       <children>
-
-          <Label fx:id="modeLabel" text="Login">
-            <font>
-               <Font size="30.0" />
-            </font>
-         </Label>
-         <HBox alignment="CENTER" prefHeight="55.0" prefWidth="512.0" spacing="20.0">
+         <ImageView fx:id="myImageView" fitHeight="250.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@Skunk.jpg" />
+            </image>
+         </ImageView>
+         <VBox alignment="CENTER" prefHeight="329.0" prefWidth="870.0">
             <children>
-               <Label text="Username:">
+      
+                      <Label fx:id="modeLabel" text="Login">
                   <font>
-                     <Font size="20.0" />
+                     <Font size="30.0" />
                   </font>
                </Label>
-
-                      <TextField fx:id="usernameField" prefHeight="30.0" prefWidth="390.0" promptText="......" />
+               <HBox alignment="CENTER" prefHeight="55.0" prefWidth="512.0" spacing="20.0">
+                  <children>
+                     <Label text="Username:">
+                        <font>
+                           <Font size="20.0" />
+                        </font>
+                     </Label>
+      
+                                  <TextField fx:id="usernameField" prefHeight="30.0" prefWidth="390.0" promptText="......" />
+                  </children>
+               </HBox>
+               <HBox alignment="CENTER" prefHeight="55.0" prefWidth="512.0" spacing="20.0">
+                  <children>
+                     <Label text="Password:">
+                        <font>
+                           <Font size="20.0" />
+                        </font>
+                     </Label>
+                      <PasswordField fx:id="passwordField" prefHeight="30.0" prefWidth="390.0" promptText="......" />
+                  </children>
+               </HBox>
+               <HBox alignment="CENTER" prefHeight="55.0" prefWidth="512.0" spacing="20.0">
+                  <children>
+                     <Label fx:id="nameLabel" text="Full Name:">
+                        <font>
+                           <Font size="20.0" />
+                        </font>
+                     </Label>
+                      <TextField fx:id="nameField" prefHeight="30.0" prefWidth="390.0" promptText="......" visible="false" />
+                  </children>
+               </HBox>
+               <HBox alignment="CENTER" prefHeight="55.0" prefWidth="512.0" spacing="61.0">
+                  <children>
+                     <Label fx:id="emailLabel" text="Email:">
+                        <font>
+                           <Font size="20.0" />
+                        </font>
+                     </Label>
+                      <TextField fx:id="emailField" prefHeight="30.0" prefWidth="390.0" promptText="......" visible="false" />
+                  </children>
+               </HBox>
             </children>
-         </HBox>
-         <HBox alignment="CENTER" prefHeight="55.0" prefWidth="512.0" spacing="20.0">
-            <children>
-               <Label text="Password:">
-                  <font>
-                     <Font size="20.0" />
-                  </font>
-               </Label>
-                <PasswordField fx:id="passwordField" prefHeight="30.0" prefWidth="390.0" promptText="......" />
-            </children>
-         </HBox>
-         <HBox alignment="CENTER" prefHeight="55.0" prefWidth="512.0" spacing="20.0">
-            <children>
-               <Label fx:id="nameLabel" text="Full Name:">
-                  <font>
-                     <Font size="20.0" />
-                  </font>
-               </Label>
-                <TextField fx:id="nameField" prefHeight="30.0" prefWidth="390.0" promptText="......" visible="false" />
-            </children>
-         </HBox>
-         <HBox alignment="CENTER" prefHeight="55.0" prefWidth="512.0" spacing="61.0">
-            <children>
-               <Label fx:id="emailLabel" text="Email:">
-                  <font>
-                     <Font size="20.0" />
-                  </font>
-               </Label>
-                <TextField fx:id="emailField" prefHeight="30.0" prefWidth="390.0" promptText="......" visible="false" />
-            </children>
-         </HBox>
+         </VBox>
+         <ImageView fx:id="myImageView" fitHeight="250.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@Skunk.jpg" />
+            </image>
+         </ImageView>
       </children>
-   </VBox>
+   </HBox>
    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0" style="-fx-background-color: #5F3985;">
       <children>
            <Button onAction="#onCancelButtonClick" prefHeight="40.0" prefWidth="120.0" style="-fx-background-color: #FFFF;" text="Cancel">
