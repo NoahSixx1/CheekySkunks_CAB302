@@ -39,14 +39,13 @@
    </HBox>
    <HBox alignment="CENTER" prefHeight="255.0" prefWidth="940.0">
       <children>
-         <ImageView fx:id="myImageView" fitHeight="250.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
+         <ImageView fx:id="Skunks" fitHeight="250.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
             <image>
-               <Image url="@Skunk.jpg" />
+               <Image url="@img/Skunks.png" />
             </image>
          </ImageView>
          <VBox alignment="CENTER" prefHeight="329.0" prefWidth="870.0">
             <children>
-      
                       <Label fx:id="modeLabel" text="Login">
                   <font>
                      <Font size="30.0" />
@@ -97,7 +96,7 @@
          </VBox>
          <ImageView fx:id="myImageView" fitHeight="250.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
             <image>
-               <Image url="@Skunk.jpg" />
+               <Image url="@img/Skunks.png" />
             </image>
          </ImageView>
       </children>

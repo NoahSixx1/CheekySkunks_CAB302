@@ -9,6 +9,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.Image;
 
 import java.io.IOException;
 
@@ -25,10 +27,14 @@ public class LoginPage {
     @FXML private Label nameLabel;
     @FXML private Label emailLabel;
     @FXML private Label TermsLabel;
+    //@FXML private ImageView image1;
 
     private String currentUserid = "";
 
     private boolean isRegisterMode = false;
+
+
+
 
     @FXML
     public void initialize() {

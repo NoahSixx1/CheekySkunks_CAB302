@@ -19,7 +19,7 @@
       <children>
          <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
             <image>
-               <Image url="@Skunk.jpg" />
+               <Image url="@img/Skunks.png" />
             </image>
          </ImageView>
          <VBox alignment="CENTER" prefHeight="59.0" prefWidth="654.0" spacing="30.0">
