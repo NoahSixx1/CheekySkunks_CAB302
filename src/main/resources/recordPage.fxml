@@ -53,12 +53,12 @@
     <HBox alignment="CENTER" prefHeight="88.0" prefWidth="721.0" spacing="30.0" style="-fx-background-color: #5F3985;">
         <!-- Record Button: Start/Stop recording -->
 
-        <Button fx:id="chooseBeatButton" onAction="#handleChooseBeat" text="Choose Beat" />
+        <Button fx:id="chooseBeatButton" onAction="#handleChooseBeat" prefHeight="40.0" prefWidth="110.0" style="-fx-background-color: #FFFF;" text="Choose Beat" />
 
-        <Button fx:id="recordButton" onAction="#handleRecordButton" text="Start Recording" />
+        <Button fx:id="recordButton" onAction="#handleRecordButton" prefHeight="40.0" prefWidth="110.0" style="-fx-background-color: #FFFF;" text="Start Recording" />
 
         <!-- Feedback Page: Go to feedback page -->
-        <Button fx:id="FeedbackPageButton" onAction="#onFeedbackButtonClick" text="Confirm" />
+        <Button fx:id="FeedbackPageButton" onAction="#onFeedbackButtonClick" prefHeight="40.0" prefWidth="110.0" style="-fx-background-color: #FFFF;" text="Confirm" />
     </HBox>
 
 </VBox>
