@@ -20,16 +20,40 @@ public class Project {
         this.transcript = transcript;
     }
 
+    /**
+     * get userid
+     * @return userid
+     */
     public int getUserid() { return userid; }
 
+    /**
+     * set userid
+     * @param userid userid
+     */
     public void setUserid(int userid) { this.userid = userid; }
 
+    /**
+     * get projectid
+     * @return projectid
+     */
     public int getProjectid() { return projectid; }
 
+    /**
+     * set projectid
+     * @param projectid projectid
+     */
     public void setProjectid(int projectid) { this.projectid = projectid; }
 
+    /**
+     * get transcript
+     * @return transcript
+     */
     public String getTranscript() { return transcript; }
 
+    /**
+     * set transcript
+     * @param transcript transcript
+     */
     public void setTranscript(String transcript) { this.transcript = transcript; }
 
 }

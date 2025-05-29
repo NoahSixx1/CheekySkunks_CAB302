@@ -181,7 +181,7 @@ public class Database {
 
     /**
      * Collects a list of saved scores from the database
-     * @return List<> of scores from leaderboard
+     * @return List of scores from leaderboard
      */
     public static List<LeaderboardEntry> getLeaderboard() {
         List<LeaderboardEntry> leaderboard = new ArrayList<>();
@@ -212,7 +212,7 @@ public class Database {
     /**
      * Collects a list of projects corresponding to a specified user
      * @param userId ID of current user
-     * @return List<> of Projects
+     * @return List of Projects
      */
     public static List<ProjectEntry> fillProjectsList(String userId) {
         List<ProjectEntry> projects = new ArrayList<>();
