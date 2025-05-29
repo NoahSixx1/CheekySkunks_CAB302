@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"m":"org.skunks.demo","l":"com.example.assignment1"}];updateSearchResults();
