@@ -18,7 +18,7 @@ public class App extends Application {
     /**
      * Begins the fxmlLoader for the main app
      * @param stage fxml stage of the app
-     * @throws IOException
+     * @throws IOException exception
      */
     @Override
     public void start(Stage stage) throws IOException {
@@ -32,7 +32,7 @@ public class App extends Application {
 
     /**
      * Launches the application
-     * @param args
+     * @param args main argument
      */
     public static void main(String[] args) {
         launch();

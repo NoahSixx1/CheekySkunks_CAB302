@@ -45,7 +45,7 @@ public class RealtimeSTT {
 
     /**
      * Creates model for use in necessary functions
-     * @throws IOException
+     * @throws IOException IO exception
      */
     public RealtimeSTT() throws IOException {
         model = new Model("src/main/resources/model");
@@ -53,7 +53,7 @@ public class RealtimeSTT {
 
     /**
      * Initializes necessary values
-     * @throws IOException
+     * @throws IOException IO exception
      */
     @FXML
     public void initialize() throws IOException {
