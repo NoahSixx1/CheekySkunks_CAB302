@@ -1,5 +1,8 @@
 package com.example.assignment1;
 
+/**
+ * Session for recording audio for API function
+ */
 public class Session {
     private static String currentUserId;
     private static String currentProjectId;

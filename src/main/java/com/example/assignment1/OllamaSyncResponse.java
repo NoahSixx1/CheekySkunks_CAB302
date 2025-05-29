@@ -24,6 +24,10 @@ public class OllamaSyncResponse {
     private OllamaAPI ollamaAPI;
     private static Logger logger = LoggerFactory.getLogger(OllamaSyncResponse.class);
 
+    /**
+     * Syncs prompt for ollama query
+     * @param prompt prompt for query
+     */
     public OllamaSyncResponse(String prompt) {
         this.prompt = prompt;
         ollamaAPI = new OllamaAPI(host);

@@ -1,5 +1,8 @@
 package com.example.assignment1;
 
+/**
+ * Class denoting a saved user
+ */
 public class User {
     private int id;
     private String username;
@@ -7,6 +10,14 @@ public class User {
     private String name;
     private String email;
 
+    /**
+     * Creates new user object
+     * @param id current id of user
+     * @param username current username of user
+     * @param password current password of user
+     * @param name current name of user
+     * @param email current email of user
+     */
     public User(int id, String username, String password, String name, String email) {
         this.id = id;
         this.username = username;

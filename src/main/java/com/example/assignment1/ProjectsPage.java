@@ -14,6 +14,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * Page for user accessing projects
+ */
 public class ProjectsPage {
     @FXML
     private ListView<ProjectEntry> projectsListView;
@@ -28,6 +31,9 @@ public class ProjectsPage {
     @FXML
     private Button leaderboardButton;  // Add the leaderboard button reference
 
+    /**
+     * Fills list of projects based on userID
+     */
     private void syncContacts() {
         projectsListView.getItems().clear();
         List<ProjectEntry> projects = Database.fillProjectsList(Session.getCurrentUserId());
@@ -37,8 +43,9 @@ public class ProjectsPage {
     }
 
 
-
-
+    /**
+     * Returns user to previous page
+     */
     @FXML
     private void goToLoginPage() {
         try {
@@ -51,6 +58,10 @@ public class ProjectsPage {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Moves user to leaderboard page
+     */
     @FXML
     private void onLeaderboardClick() {
         try {
@@ -69,6 +80,9 @@ public class ProjectsPage {
         }
     }
 
+    /**
+     * Initializes necessary values
+     */
     @FXML
     public void initialize() {
         syncContacts();
@@ -82,7 +96,9 @@ public class ProjectsPage {
 
     }
 
-
+    /**
+     * Moves user to recording page if a project is selected
+     */
     @FXML
     private void handleSelectProjectClick() {
         ProjectEntry selected = projectsListView.getSelectionModel().getSelectedItem();
@@ -108,6 +124,9 @@ public class ProjectsPage {
         }
     }
 
+    /**
+     * Creates a new project and saves to database
+     */
     @FXML
     private void handleNewProjectClick() {
         TextInputDialog dialog = new TextInputDialog();

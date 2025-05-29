@@ -1,5 +1,8 @@
 package com.example.assignment1;
 
+/**
+ * Simplified project object for storing
+ */
 public class ProjectEntry {
     private final int projectId;
     private final String title;

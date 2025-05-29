@@ -12,6 +12,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * Page for user login and registration
+ */
 public class LoginPage {
     @FXML private TextArea termsAndConditions;
     @FXML private CheckBox agreeCheckBox;
@@ -30,6 +33,9 @@ public class LoginPage {
 
     private boolean isRegisterMode = false;
 
+    /**
+     * Initializes necessary values
+     */
     @FXML
     public void initialize() {
         termsAndConditions.setText(
@@ -58,6 +64,9 @@ public class LoginPage {
         toggleMode();
     }
 
+    /**
+     * Ensures terms and conditions are agreed to before user can be registered
+     */
     @FXML
     protected void onAgreeCheckBoxClick() {
         if (isRegisterMode) {
@@ -66,6 +75,10 @@ public class LoginPage {
         }
     }
 
+    /**
+     * if logging in, checks if user is valid and logs in
+     * if registering, checks if registry is valid and creates user
+     */
     @FXML
     protected void onNextButtonClick() {
         String username = usernameField.getText().trim();
@@ -112,17 +125,23 @@ public class LoginPage {
     }
 
 
-
+    /**
+     * Exits project
+     */
     @FXML
     protected void onCancelButtonClick() {
         ((Stage) nextButton.getScene().getWindow()).close();
     }
 
+    /**
+     * Toggles registry and login
+     */
     @FXML
     protected void onToggleButtonClick() {
         isRegisterMode = !isRegisterMode;
         toggleMode();
     }
+
 
     private void toggleMode() {
         // show/hide name & email fields (you already have these)
@@ -150,6 +169,9 @@ public class LoginPage {
         modeLabel.setText(isRegisterMode ? "Register New Account" : "Login");
     }
 
+    /**
+     * Moves user to next page
+     */
     private void goToNextPage() {
         try {
             FXMLLoader loader = new FXMLLoader(App.class.getResource("/ProjectsPage.fxml"));
@@ -162,6 +184,9 @@ public class LoginPage {
         }
     }
 
+    /**
+     * Displays alerts on screen for user
+     */
     private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);

@@ -4,6 +4,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Functions for initiating and accessing the skunks.db database
+ */
 public class Database {
     private static final String DB_URL = "jdbc:sqlite:skunks.db";
 
@@ -51,6 +54,14 @@ public class Database {
         }
     }
 
+    /**
+     * Takes inputs for a new user in the program and inserts into the database
+     * @param username username for login
+     * @param password password for login
+     * @param name name of user
+     * @param email email of user
+     * @return if user is successfully added to database
+     */
     public static boolean registerUser(String username, String password, String name, String email) {
         String sql = "INSERT INTO users (username, password, name, email) VALUES (?, ?, ?, ?)";
         try (Connection conn = DriverManager.getConnection(DB_URL);
@@ -72,6 +83,11 @@ public class Database {
         }
     }
 
+    /**
+     * Checks if a specified email is already registered in the database
+     * @param email email to check
+     * @return if email exists in database
+     */
     public static boolean emailExists(String email) {
         String sql = "SELECT COUNT(*) FROM users WHERE email = ?";
         try (Connection conn = DriverManager.getConnection(DB_URL);
@@ -85,6 +101,10 @@ public class Database {
         return false;
     }
 
+    /**
+     * Initializes the leaderboard function
+     * @param userId ID of current user
+     */
     private static void initializeLeaderboardEntry(int userId) {
         String sql = "INSERT OR IGNORE INTO leaderboard (userid, score) VALUES (?, 0)";
         try (Connection conn = DriverManager.getConnection(DB_URL);
@@ -96,6 +116,12 @@ public class Database {
         }
     }
 
+    /**
+     * Checks if username and password pair correspond to a registered user
+     * @param username username to check
+     * @param password password to check
+     * @return if input pair is valid
+     */
     public static boolean authenticateUser(String username, String password) {
         String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
         try (Connection conn = DriverManager.getConnection(DB_URL);
@@ -110,6 +136,11 @@ public class Database {
         }
     }
 
+    /**
+     * Gets the ID of a specified username
+     * @param username username of desired ID
+     * @return userID
+     */
     public static Integer getUserId(String username) {
         String sql = "SELECT id FROM users WHERE username = ?";
         try (Connection conn = DriverManager.getConnection(DB_URL);
@@ -125,6 +156,12 @@ public class Database {
         return null;
     }
 
+    /**
+     * Updates score value of specified user
+     * @param username username of user
+     * @param newScore score to be inputted
+     * @return if score is updated correctly
+     */
     public static boolean updateScore(String username, int newScore) {
         String sql = """
             UPDATE leaderboard
@@ -142,6 +179,10 @@ public class Database {
         }
     }
 
+    /**
+     * Collects a list of saved scores from the database
+     * @return List<> of scores from leaderboard
+     */
     public static List<LeaderboardEntry> getLeaderboard() {
         List<LeaderboardEntry> leaderboard = new ArrayList<>();
         String sql = """
@@ -168,6 +209,11 @@ public class Database {
         return leaderboard;
     }
 
+    /**
+     * Collects a list of projects corresponding to a specified user
+     * @param userId ID of current user
+     * @return List<> of Projects
+     */
     public static List<ProjectEntry> fillProjectsList(String userId) {
         List<ProjectEntry> projects = new ArrayList<>();
         String sql = "SELECT projectid, title FROM projects WHERE userid = ?";
@@ -190,6 +236,14 @@ public class Database {
         return projects;
     }
 
+    /**
+     * Updated the project and score of a specified project
+     * @param projectId ID of current project
+     * @param transcript transcript of current project
+     * @param score score of current project
+     * @param title title of current project
+     * @return if update is successful
+     */
     public static boolean updateProjectTranscriptAndScore(int projectId, String transcript, int score, String title) {
         String sql = "UPDATE projects SET transcript = ?, score = ?, title = ? WHERE projectid = ?";
         try (Connection conn = DriverManager.getConnection(DB_URL);
@@ -205,6 +259,14 @@ public class Database {
         }
     }
 
+    /**
+     * Updates specified entry in leaderboard
+     * @param userId ID of current user
+     * @param projectId ID of current project
+     * @param score score of current project
+     * @param title title of current project
+     * @return if update is successful
+     */
     public static boolean updateLeaderboardEntry(int userId, int projectId, int score, String title) {
         String sql = """
             INSERT OR REPLACE INTO leaderboard (userid, projectid, score, title)
