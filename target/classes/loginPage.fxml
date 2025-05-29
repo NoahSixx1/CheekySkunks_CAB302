@@ -39,9 +39,9 @@
    </HBox>
    <HBox alignment="CENTER" prefHeight="255.0" prefWidth="940.0">
       <children>
-         <ImageView fx:id="myImageView" fitHeight="250.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
+         <ImageView fitHeight="250.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
             <image>
-               <Image url="@Skunk.jpg" />
+               <Image url="@Skunks.jpg" />
             </image>
          </ImageView>
          <VBox alignment="CENTER" prefHeight="329.0" prefWidth="870.0">
@@ -95,9 +95,9 @@
                </HBox>
             </children>
          </VBox>
-         <ImageView fx:id="myImageView" fitHeight="250.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
+         <ImageView fitHeight="250.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
             <image>
-               <Image url="@Skunk.jpg" />
+               <Image url="@Skunks.jpg" />
             </image>
          </ImageView>
       </children>
