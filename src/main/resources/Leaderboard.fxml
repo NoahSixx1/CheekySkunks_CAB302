@@ -5,6 +5,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -13,20 +15,29 @@
     <padding>
         <Insets bottom="20" left="20" right="20" top="20" />
     </padding>
-   <VBox alignment="CENTER" prefHeight="92.0" prefWidth="591.0" spacing="30.0">
+   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
       <children>
-         <Label text="Skunks Rap">
-            <font>
-               <Font size="40.0" />
-            </font>
-         </Label>
-         <Label text="Leaderboard Page">
-            <font>
-               <Font size="30.0" />
-            </font>
-         </Label>
+         <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@Skunks.jpg" />
+            </image>
+         </ImageView>
+         <VBox alignment="CENTER" prefHeight="92.0" prefWidth="591.0" spacing="30.0">
+            <children>
+               <Label text="Skunks Rap">
+                  <font>
+                     <Font size="40.0" />
+                  </font>
+               </Label>
+               <Label text="Leaderboard Page">
+                  <font>
+                     <Font size="30.0" />
+                  </font>
+               </Label>
+            </children>
+         </VBox>
       </children>
-   </VBox>
+   </HBox>
    <HBox alignment="CENTER_RIGHT" prefHeight="46.0" prefWidth="591.0">
       <children>
          <Button fx:id="leaderboardExitButton" mnemonicParsing="false" onAction="#goToMainPage" prefHeight="40.0" prefWidth="110.0" style="-fx-background-color: #5F3985;" text="Exit" textFill="WHITE" />

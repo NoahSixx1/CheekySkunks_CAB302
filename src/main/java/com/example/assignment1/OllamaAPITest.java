@@ -11,6 +11,9 @@ public class OllamaAPITest {
 
     private static final String HOST = "http://localhost:11434/";
 
+    /**
+     * Tests if Ollama API is running
+     */
     public OllamaAPITest() {
         OllamaAPI ollamaAPI = new OllamaAPI(HOST);
         if (ollamaAPI.ping()) {

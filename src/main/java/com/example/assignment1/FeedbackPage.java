@@ -25,7 +25,9 @@ import java.util.regex.Pattern;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
-
+/**
+ * Page for receiving AI powered feedback
+ */
 public class FeedbackPage {
 
     @FXML
@@ -45,8 +47,9 @@ public class FeedbackPage {
     @FXML private Button saveFeedbackButton;
 
 
-
-
+    /**
+     * Initializes necessary values
+     */
     @FXML
     public void initialize() {
         feedbackTextArea.setEditable(false);
@@ -55,6 +58,9 @@ public class FeedbackPage {
         loadTranscriptFromDatabase();
     }
 
+    /**
+     * Collects the necessary transcript.txt from database
+     */
     private void loadTranscriptFromDatabase() {
         String url = "jdbc:sqlite:skunks.db";
         String query = "SELECT transcript FROM projects WHERE projectid = ?";
@@ -76,6 +82,9 @@ public class FeedbackPage {
         }
     }
 
+    /**
+     * Prompts AI for feedback on text input
+     */
     @FXML
     public void handleGetFeedbackButton() {
         String lyrics = feedbackTextArea.getText();
@@ -106,6 +115,9 @@ public class FeedbackPage {
         }
     }
 
+    /**
+     * Logic for handling user text editing
+     */
     @FXML
     public void handleEditTextButton() {
         if (feedbackTextArea.isEditable()) {
@@ -116,6 +128,10 @@ public class FeedbackPage {
             editTextButton.setText("Finish");
         }
     }
+
+    /**
+     * Returns user to previous page
+     */
     @FXML
     private void onExit() {
         try {
@@ -128,6 +144,10 @@ public class FeedbackPage {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Saves feedback to database
+     */
     @FXML
     public void handleSaveFeedback() {
         String fullText = feedbackTextArea.getText();
@@ -187,6 +207,12 @@ public class FeedbackPage {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Gets title of desired project
+     * @param projectId ID of desired project
+     * @return project title
+     */
     private String getProjectTitleById(int projectId) {
         String title = "Untitled";
         String sql = "SELECT title FROM projects WHERE projectid = ?";
@@ -202,6 +228,10 @@ public class FeedbackPage {
         }
         return title;
     }
+
+    /**
+     * Downloads transcript as txt file
+     */
     @FXML
     private void handleDownloadTranscript() {
         FileChooser fileChooser = new FileChooser();

@@ -16,6 +16,9 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.*;
 
+/**
+ * Page for leaderboard of user scores
+ */
 public class LeaderboardController {
 
     @FXML
@@ -33,7 +36,9 @@ public class LeaderboardController {
     @FXML
     private Button leaderboardExitButton;
 
-
+    /**
+     * Initializes necessary values
+     */
     @FXML
     public void initialize() {
         userColumn.setCellValueFactory(new PropertyValueFactory<>("user"));
@@ -43,6 +48,9 @@ public class LeaderboardController {
         leaderboardTable.setItems(getLeaderboardData());
     }
 
+    /**
+     * Returns user to previous page
+     */
     @FXML
     private void goToMainPage() {
         try {
@@ -61,6 +69,10 @@ public class LeaderboardController {
         }
     }
 
+    /**
+     * Collects list of leaderboard entries
+     * @return List<> of entries
+     */
     private ObservableList<LeaderboardEntry> getLeaderboardData() {
         ObservableList<LeaderboardEntry> data = FXCollections.observableArrayList();
 

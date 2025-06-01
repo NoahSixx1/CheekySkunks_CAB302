@@ -17,6 +17,9 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.sql.*;
 
+/**
+ * Page for recording and transcribing rap
+ */
 public class RealtimeSTT {
 
     @FXML private Text statusText;
@@ -40,17 +43,27 @@ public class RealtimeSTT {
 
     String userId = Session.getCurrentUserId();
 
+    /**
+     * Creates model for use in necessary functions
+     * @throws IOException IO exception
+     */
     public RealtimeSTT() throws IOException {
         model = new Model("src/main/resources/model");
     }
 
+    /**
+     * Initializes necessary values
+     * @throws IOException IO exception
+     */
     @FXML
     public void initialize() throws IOException {
         recognizer = new Recognizer(model, SAMPLE_RATE);
         loadTranscriptFromDatabase(); // 🔥 NEW LINE
     }
 
-
+    /**
+     * Allows user to select beat from file
+     */
     @FXML
     private void handleChooseBeat() {
         FileChooser fileChooser = new FileChooser();
@@ -66,6 +79,9 @@ public class RealtimeSTT {
         }
     }
 
+    /**
+     * Logic for recording audio
+     */
     @FXML
     public void handleRecordButton() {
         if (isRecording) {
@@ -82,6 +98,9 @@ public class RealtimeSTT {
         }
     }
 
+    /**
+     * Transcribes audio to text and saved in txt
+     */
     private void startRecording() {
         try {
             AudioFormat format = new AudioFormat(SAMPLE_RATE, 16, 1, true, false);
@@ -140,6 +159,9 @@ public class RealtimeSTT {
         }
     }
 
+    /**
+     * Stops audio recording
+     */
     private void stopRecording() {
         beatPlayer.stopBeat();
 
@@ -180,13 +202,17 @@ public class RealtimeSTT {
     }
 
 
-
-
+    /**
+     * Moves user to feedback page
+     */
     @FXML
     public void onFeedbackButtonClick() {
         goToFeedbackPage();
     }
 
+    /**
+     * Moves user to feedback page
+     */
     private void goToFeedbackPage() {
         try {
             FXMLLoader loader = new FXMLLoader(App.class.getResource("/feedbackPage.fxml"));
@@ -198,6 +224,9 @@ public class RealtimeSTT {
         }
     }
 
+    /**
+     * Returns user to previous page
+     */
     @FXML
     private void onExit() {
         try {

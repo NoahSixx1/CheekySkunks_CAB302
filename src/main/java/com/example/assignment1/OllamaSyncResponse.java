@@ -24,6 +24,10 @@ public class OllamaSyncResponse {
     private OllamaAPI ollamaAPI;
     private static Logger logger = LoggerFactory.getLogger(OllamaSyncResponse.class);
 
+    /**
+     * Syncs prompt for ollama query
+     * @param prompt prompt for query
+     */
     public OllamaSyncResponse(String prompt) {
         this.prompt = prompt;
         ollamaAPI = new OllamaAPI(host);
@@ -32,9 +36,9 @@ public class OllamaSyncResponse {
     /**
      * Uses the Ollama4j API to generate a response to the prompt sent
      * @return String representing the response from LLM as long as HTTP response is 200 ok and response not null
-     * @throws OllamaBaseException
-     * @throws IOException
-     * @throws InterruptedException
+     * @throws OllamaBaseException Ollama exception
+     * @throws IOException IO exception
+     * @throws InterruptedException Interruption exception
      */
     public String ollamaResponse() throws OllamaBaseException, IOException, InterruptedException {
         OllamaAPI ollamaAPI = new OllamaAPI(host);
